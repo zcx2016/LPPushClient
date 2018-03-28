@@ -34,4 +34,9 @@
     }
 }
 
+- (void)setModel:(LPPShopCarModel *)model{
+    _model = model;
+    _endMoneyLabel.text = model.cart_price;
+}
+
 @end

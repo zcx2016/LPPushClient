@@ -10,14 +10,9 @@
 #import "LPPShopCarCell.h"
 #import "LPPShopCarBottomView.h"
 #import "LPPWriteOrderVC.h"
+#import "LPPShopCarModel.h"
 
 @interface LPPShopCarVC ()<UITableViewDelegate,UITableViewDataSource>
-{
-    NSMutableArray * dataSource;    //数据源
-    CGFloat beginContentY;          //开始滑动的位置
-    CGFloat endContentY;            //结束滑动的位置
-    CGFloat sectionHeaderHeight;    //section的header高度
-}
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -26,6 +21,8 @@
 @property (nonatomic, weak) LPPShopCarCell *weak_shopCarCell;
 
 @property (nonatomic, strong) UIView  *barView;
+
+@property (nonatomic, strong) NSArray <LPPShopCarModel *>*dataSource;
 
 @end
 
@@ -50,8 +47,28 @@
     [editBtn addTarget:self action:@selector(editBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 
     [self shopCarBottomView];
+    
+    [self loadData];
 }
 
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_cart1.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-responseObject---%@",responseObject);
+        NSArray *dataArray = responseObject[@"cart_list"];
+        self.dataSource = [NSArray yy_modelArrayWithClass:[LPPShopCarModel class] json:dataArray];
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
+}
+
+//导航栏渐变
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     UIColor *color= ZCXColor(225, 61, 38);
     CGFloat offset=scrollView.contentOffset.y;
@@ -110,7 +127,7 @@
 
 #pragma mark - tableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return self.dataSource.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -122,6 +139,8 @@
     LPPShopCarCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPShopCarCell" forIndexPath:indexPath];
     //赋值引用
     self.weak_shopCarCell = cell;
+    LPPShopCarModel *model = self.dataSource[indexPath.section];
+    cell.model  = model;
     return cell;
 }
 

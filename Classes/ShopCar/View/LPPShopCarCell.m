@@ -123,4 +123,12 @@
 - (void)deleteEvents:(UIButton *)btn{
     NSLog(@"删除");
 }
+
+- (void)setModel:(LPPShopCarModel *)model{
+    _model = model;
+    
+    _commodityNameLabel.text = model.goods_name;
+    _priceLabel.text = model.goods_price;
+    _countLabel.text = model.goods_count;
+}
 @end

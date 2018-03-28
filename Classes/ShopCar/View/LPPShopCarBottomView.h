@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPShopCarModel.h"
 
 @interface LPPShopCarBottomView : UIView
 
@@ -15,5 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *selectAllBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *endMoneyLabel;
+
+@property (nonatomic, strong) LPPShopCarModel *model;
 
 @end

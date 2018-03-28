@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPShopCarModel.h"
 
 @interface LPPShopCarCell : UITableViewCell
 
@@ -29,5 +30,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *addBtn;
 
 @property (weak, nonatomic) IBOutlet UILabel *changeCountLabel;
+
+@property (nonatomic, strong) LPPShopCarModel *model;
 
 @end
