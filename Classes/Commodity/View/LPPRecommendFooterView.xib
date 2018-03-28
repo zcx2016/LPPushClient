@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPPRecommendFooterView">
+            <rect key="frame" x="0.0" y="0.0" width="362" height="573"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bannerWomen.png" translatesAutoresizingMaskIntoConstraints="NO" id="neL-2E-83S">
+                    <rect key="frame" x="0.0" y="0.0" width="362" height="170"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="170" id="Cbm-54-g9y"/>
+                    </constraints>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bannerMan.png" translatesAutoresizingMaskIntoConstraints="NO" id="6as-7s-0yf">
+                    <rect key="frame" x="0.0" y="170" width="362" height="170"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bannerKids.png" translatesAutoresizingMaskIntoConstraints="NO" id="zG6-9R-JVG">
+                    <rect key="frame" x="0.0" y="340" width="362" height="170"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="6as-7s-0yf" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="0VA-1U-d0M"/>
+                <constraint firstItem="zG6-9R-JVG" firstAttribute="top" secondItem="6as-7s-0yf" secondAttribute="bottom" id="9ha-gM-MbS"/>
+                <constraint firstAttribute="trailing" secondItem="neL-2E-83S" secondAttribute="trailing" id="HSZ-BD-QOO"/>
+                <constraint firstItem="neL-2E-83S" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="PQB-78-o98"/>
+                <constraint firstItem="zG6-9R-JVG" firstAttribute="height" secondItem="6as-7s-0yf" secondAttribute="height" id="R8s-A0-igx"/>
+                <constraint firstItem="zG6-9R-JVG" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="WFE-wA-6oo"/>
+                <constraint firstItem="6as-7s-0yf" firstAttribute="top" secondItem="neL-2E-83S" secondAttribute="bottom" id="e4v-xo-dcu"/>
+                <constraint firstItem="neL-2E-83S" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="pcJ-DG-V7l"/>
+                <constraint firstAttribute="trailing" secondItem="zG6-9R-JVG" secondAttribute="trailing" id="rUs-za-jsc"/>
+                <constraint firstAttribute="trailing" secondItem="6as-7s-0yf" secondAttribute="trailing" id="tJ2-dA-9gf"/>
+                <constraint firstItem="6as-7s-0yf" firstAttribute="height" secondItem="neL-2E-83S" secondAttribute="height" id="ziX-8R-Y2K"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="63" y="71.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bannerKids.png" width="375" height="170"/>
+        <image name="bannerMan.png" width="377" height="170"/>
+        <image name="bannerWomen.png" width="375" height="170"/>
+    </resources>
+</document>

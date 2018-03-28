@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="ZCXActionSheetCell">
+            <rect key="frame" x="0.0" y="0.0" width="141" height="113"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="141" height="113"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bag" translatesAutoresizingMaskIntoConstraints="NO" id="MhR-18-zAi">
+                        <rect key="frame" x="10" y="10" width="121" height="93"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NId-Gw-vK0">
+                        <rect key="frame" x="121" y="0.0" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="dpC-fw-kUi"/>
+                            <constraint firstAttribute="width" constant="20" id="yh2-qr-kIM"/>
+                        </constraints>
+                        <state key="normal" image="unSelected.png"/>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="MhR-18-zAi" secondAttribute="trailing" constant="10" id="4Pu-LU-0uf"/>
+                <constraint firstAttribute="bottom" secondItem="MhR-18-zAi" secondAttribute="bottom" constant="10" id="OBT-qM-MQX"/>
+                <constraint firstItem="MhR-18-zAi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="10" id="V48-8L-Cu2"/>
+                <constraint firstItem="MhR-18-zAi" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="Z4X-Js-Vit"/>
+                <constraint firstAttribute="trailing" secondItem="NId-Gw-vK0" secondAttribute="trailing" id="Zwh-YD-eRO"/>
+                <constraint firstItem="NId-Gw-vK0" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="nQF-PN-Jvd"/>
+            </constraints>
+            <size key="customSize" width="141" height="113"/>
+            <point key="canvasLocation" x="269.5" y="180.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="bag" width="264" height="258"/>
+        <image name="unSelected.png" width="20" height="20"/>
+    </resources>
+</document>

@@ -10,4 +10,9 @@
 
 @implementation LPPWriteOrderAddressModel
 
+- (id)copyWithZone:(NSZone *)zone {
+    
+    return [self yy_modelCopy];
+}
+
 @end

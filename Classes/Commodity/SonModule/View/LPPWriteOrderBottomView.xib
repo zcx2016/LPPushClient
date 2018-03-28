@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPPWriteOrderBottomView">
+            <rect key="frame" x="0.0" y="0.0" width="356" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EQf-wg-eJf">
+                    <rect key="frame" x="237.5" y="0.0" width="118.5" height="54"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" title="支付">
+                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 应付金额:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Toq-pU-xwh">
+                    <rect key="frame" x="0.0" y="0.0" width="89" height="54"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥8750.00" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pRs-it-Kmj">
+                    <rect key="frame" x="89" y="0.0" width="148.5" height="54"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="EQf-wg-eJf" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="1/3" id="6Cq-Ua-aFS"/>
+                <constraint firstAttribute="bottom" secondItem="EQf-wg-eJf" secondAttribute="bottom" id="901-Jf-P5A"/>
+                <constraint firstAttribute="bottom" secondItem="Toq-pU-xwh" secondAttribute="bottom" id="99L-Bc-Wlx"/>
+                <constraint firstAttribute="trailing" secondItem="EQf-wg-eJf" secondAttribute="trailing" id="GLU-xG-vPz"/>
+                <constraint firstItem="Toq-pU-xwh" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="LW0-hb-Ep2"/>
+                <constraint firstItem="EQf-wg-eJf" firstAttribute="leading" secondItem="pRs-it-Kmj" secondAttribute="trailing" id="eW6-Ur-CbG"/>
+                <constraint firstItem="Toq-pU-xwh" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="1/4" id="eav-vA-Wch"/>
+                <constraint firstItem="Toq-pU-xwh" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fym-xg-k67"/>
+                <constraint firstItem="pRs-it-Kmj" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="mgW-Zp-ibh"/>
+                <constraint firstAttribute="bottom" secondItem="pRs-it-Kmj" secondAttribute="bottom" id="nJ8-Q1-xH3"/>
+                <constraint firstItem="pRs-it-Kmj" firstAttribute="leading" secondItem="Toq-pU-xwh" secondAttribute="trailing" id="yXa-UO-Lz0"/>
+                <constraint firstItem="EQf-wg-eJf" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="ysE-Rg-mO9"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="moneyLabel" destination="pRs-it-Kmj" id="L6w-48-GGX"/>
+                <outlet property="payBtn" destination="EQf-wg-eJf" id="PaX-hX-gbm"/>
+            </connections>
+            <point key="canvasLocation" x="24" y="402"/>
+        </view>
+    </objects>
+</document>

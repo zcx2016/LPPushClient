@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPPFilterHeadView">
+            <rect key="frame" x="0.0" y="0.0" width="350" height="55"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="品牌" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RlZ-Kb-YXR">
+                    <rect key="frame" x="20" y="19" width="31" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="onC-2u-tcz">
+                    <rect key="frame" x="320" y="17" width="15" height="22"/>
+                    <state key="normal" image="downArrow.png"/>
+                </button>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="onC-2u-tcz" secondAttribute="trailing" constant="15" id="1Ax-3G-451"/>
+                <constraint firstItem="RlZ-Kb-YXR" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="60x-kZ-Lnb"/>
+                <constraint firstItem="onC-2u-tcz" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Tru-qv-NKN"/>
+                <constraint firstItem="RlZ-Kb-YXR" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="b5W-ej-5A8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="showBtn" destination="onC-2u-tcz" id="yEM-Ed-ZEy"/>
+                <outlet property="titleLabel" destination="RlZ-Kb-YXR" id="KFk-Wi-BDT"/>
+            </connections>
+            <point key="canvasLocation" x="34" y="79"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="downArrow.png" width="15" height="9"/>
+    </resources>
+</document>

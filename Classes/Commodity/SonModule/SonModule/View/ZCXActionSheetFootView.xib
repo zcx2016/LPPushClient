@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ZCXActionSheetFootView">
+            <rect key="frame" x="0.0" y="0.0" width="405" height="121"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tho-96-ZFP">
+                    <rect key="frame" x="0.0" y="0.0" width="405" height="116"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aS1-nT-RcR">
+                            <rect key="frame" x="5" y="10" width="395" height="1"/>
+                            <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="1" id="C0N-l7-8hn"/>
+                            </constraints>
+                        </view>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ysD-Km-fkA">
+                            <rect key="frame" x="97" y="41" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="7pe-Y2-8bC"/>
+                                <constraint firstAttribute="height" constant="70" id="tCr-6Q-ppl"/>
+                            </constraints>
+                            <state key="normal" image="friendCircle.png"/>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czQ-tV-X2z">
+                            <rect key="frame" x="237.5" y="41" width="70" height="70"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="70" id="IDG-4d-co4"/>
+                                <constraint firstAttribute="width" constant="70" id="O0F-bZ-ETV"/>
+                            </constraints>
+                            <state key="normal" image="wechatCircle.png"/>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="ysD-Km-fkA" firstAttribute="centerX" secondItem="Tho-96-ZFP" secondAttribute="centerX" constant="-70" id="27V-ie-gMv"/>
+                        <constraint firstItem="czQ-tV-X2z" firstAttribute="centerY" secondItem="ysD-Km-fkA" secondAttribute="centerY" id="3ci-kH-1ed"/>
+                        <constraint firstItem="czQ-tV-X2z" firstAttribute="centerX" secondItem="Tho-96-ZFP" secondAttribute="centerX" constant="70" id="9Oy-T0-JS3"/>
+                        <constraint firstItem="ysD-Km-fkA" firstAttribute="top" secondItem="aS1-nT-RcR" secondAttribute="bottom" constant="30" id="G7e-q5-Qxl"/>
+                        <constraint firstItem="aS1-nT-RcR" firstAttribute="top" secondItem="Tho-96-ZFP" secondAttribute="top" constant="10" id="VbO-5C-uri"/>
+                        <constraint firstAttribute="trailing" secondItem="aS1-nT-RcR" secondAttribute="trailing" constant="5" id="tUp-Kg-XnD"/>
+                        <constraint firstItem="aS1-nT-RcR" firstAttribute="leading" secondItem="Tho-96-ZFP" secondAttribute="leading" constant="5" id="yjf-0i-hom"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Tho-96-ZFP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="HRj-X4-T4G"/>
+                <constraint firstItem="Tho-96-ZFP" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="JAN-tU-Or0"/>
+                <constraint firstAttribute="trailing" secondItem="Tho-96-ZFP" secondAttribute="trailing" id="hBH-os-mFg"/>
+                <constraint firstAttribute="bottom" secondItem="Tho-96-ZFP" secondAttribute="bottom" constant="5" id="nU5-ai-aHu"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="friendCircleBtn" destination="ysD-Km-fkA" id="X4o-PR-m3U"/>
+                <outlet property="outView" destination="Tho-96-ZFP" id="xVz-DN-AMy"/>
+                <outlet property="wechatCircleBtn" destination="czQ-tV-X2z" id="SPr-Kz-guQ"/>
+            </connections>
+            <point key="canvasLocation" x="58.5" y="323.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="friendCircle.png" width="70" height="70"/>
+        <image name="wechatCircle.png" width="70" height="70"/>
+    </resources>
+</document>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="46" id="KGk-i7-Jjw" customClass="LPPAddressPickerCell">
+            <rect key="frame" x="0.0" y="0.0" width="316" height="46"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="316" height="45.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="所在地区" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhm-QX-RqK">
+                        <rect key="frame" x="15" y="13" width="70" height="19.5"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="70" id="186-77-heO"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0CY-WH-v4G">
+                        <rect key="frame" x="300" y="12" width="6" height="22"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="6" id="Cti-nY-y8m"/>
+                        </constraints>
+                        <state key="normal" image="youArrow.png"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="opJ-rx-eWe">
+                        <rect key="frame" x="95" y="7" width="200" height="32"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="上海市宝山区">
+                            <color key="titleColor" red="0.82745098039215681" green="0.82745098039215681" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tPh-bg-OGS">
+                        <rect key="frame" x="0.0" y="44.5" width="316" height="1"/>
+                        <color key="backgroundColor" red="0.94509803920000002" green="0.95294117649999999" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Stc-Hw-CxR"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="opJ-rx-eWe" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="20s-uY-Tzh"/>
+                    <constraint firstAttribute="bottom" secondItem="tPh-bg-OGS" secondAttribute="bottom" id="HgA-cg-kCs"/>
+                    <constraint firstAttribute="trailing" secondItem="0CY-WH-v4G" secondAttribute="trailing" constant="10" id="Iwd-Ex-HUk"/>
+                    <constraint firstItem="0CY-WH-v4G" firstAttribute="leading" secondItem="opJ-rx-eWe" secondAttribute="trailing" constant="5" id="MVY-pi-UDT"/>
+                    <constraint firstItem="vhm-QX-RqK" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="V5s-8R-fzr"/>
+                    <constraint firstAttribute="trailing" secondItem="tPh-bg-OGS" secondAttribute="trailing" id="YHa-jp-Emd"/>
+                    <constraint firstItem="opJ-rx-eWe" firstAttribute="leading" secondItem="vhm-QX-RqK" secondAttribute="trailing" constant="10" id="a79-6N-ymL"/>
+                    <constraint firstItem="vhm-QX-RqK" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="fKL-H8-Z0S"/>
+                    <constraint firstItem="tPh-bg-OGS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="u8u-tN-mge"/>
+                    <constraint firstItem="0CY-WH-v4G" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="v1f-CG-0pm"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="addressBtn" destination="opJ-rx-eWe" id="xD6-U6-pN9"/>
+            </connections>
+            <point key="canvasLocation" x="-176" y="156"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="youArrow.png" width="6" height="10"/>
+    </resources>
+</document>

@@ -10,4 +10,12 @@
 
 @interface LPPWriteOrderAddressModel : NSObject
 
+@property (nonatomic, copy) NSString  *addr_id;
+@property (nonatomic, copy) NSString  *areaAddr;
+@property (nonatomic, copy) NSString  *areaInfo;
+@property (nonatomic, copy) NSString  *telephone;
+@property (nonatomic, copy) NSString  *trueName;
+
+@property (nonatomic, assign) NSInteger verify;
+
 @end

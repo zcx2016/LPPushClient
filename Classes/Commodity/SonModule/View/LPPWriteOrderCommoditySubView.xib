@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPPWriteOrderCommoditySubView">
+            <rect key="frame" x="0.0" y="0.0" width="381" height="129"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BalenCiaga/巴黎世家女士 Classic Gold City 牛皮机车包" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Q5-tA-G3c">
+                    <rect key="frame" x="120" y="24.5" width="251" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="kw7-Lc-ISf"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥ 1780.00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bWr-pa-ers">
+                    <rect key="frame" x="286.5" y="86.5" width="74.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bag" translatesAutoresizingMaskIntoConstraints="NO" id="g6C-0T-EWd">
+                    <rect key="frame" x="10" y="14.5" width="100" height="100"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="100" id="T5a-Q4-Wzh"/>
+                        <constraint firstAttribute="height" constant="100" id="g9B-0c-hrX"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="数量x1" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pct-px-XDa">
+                    <rect key="frame" x="120" y="86.5" width="45.5" height="18"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YsN-xx-tmt">
+                    <rect key="frame" x="10" y="124.5" width="361" height="1"/>
+                    <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="HSE-Jn-wdT"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Pct-px-XDa" firstAttribute="leading" secondItem="g6C-0T-EWd" secondAttribute="trailing" constant="10" id="5N9-um-HXS"/>
+                <constraint firstItem="bWr-pa-ers" firstAttribute="centerY" secondItem="Pct-px-XDa" secondAttribute="centerY" id="6qy-Xz-ziG"/>
+                <constraint firstItem="0Q5-tA-G3c" firstAttribute="top" secondItem="g6C-0T-EWd" secondAttribute="top" constant="10" id="K1H-ln-Crc"/>
+                <constraint firstItem="Pct-px-XDa" firstAttribute="bottom" secondItem="g6C-0T-EWd" secondAttribute="bottom" constant="-10" id="Q0j-OK-Wmp"/>
+                <constraint firstItem="YsN-xx-tmt" firstAttribute="top" secondItem="g6C-0T-EWd" secondAttribute="bottom" constant="10" id="S60-9E-5uD"/>
+                <constraint firstItem="g6C-0T-EWd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="Uyx-Re-2Am"/>
+                <constraint firstItem="g6C-0T-EWd" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="eRx-1m-NNx"/>
+                <constraint firstAttribute="trailing" secondItem="bWr-pa-ers" secondAttribute="trailing" constant="20" id="fia-Xt-G9b"/>
+                <constraint firstItem="0Q5-tA-G3c" firstAttribute="leading" secondItem="g6C-0T-EWd" secondAttribute="trailing" constant="10" id="lhE-r4-i3Y"/>
+                <constraint firstAttribute="trailing" secondItem="0Q5-tA-G3c" secondAttribute="trailing" constant="10" id="q5o-9S-j3r"/>
+                <constraint firstItem="YsN-xx-tmt" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="10" id="rco-ZG-dqN"/>
+                <constraint firstAttribute="trailing" secondItem="YsN-xx-tmt" secondAttribute="trailing" constant="10" id="tDu-Cw-57X"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="commodityImgView" destination="g6C-0T-EWd" id="Nxz-C1-FGb"/>
+                <outlet property="countLabel" destination="Pct-px-XDa" id="sjA-FT-Xxd"/>
+                <outlet property="lineView" destination="YsN-xx-tmt" id="4zv-CU-swO"/>
+                <outlet property="nameLabel" destination="0Q5-tA-G3c" id="qp8-27-juh"/>
+                <outlet property="priceLabel" destination="bWr-pa-ers" id="QYV-Ts-6kq"/>
+            </connections>
+            <point key="canvasLocation" x="36.5" y="98.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="bag" width="264" height="258"/>
+    </resources>
+</document>

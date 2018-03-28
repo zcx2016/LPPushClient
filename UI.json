@@ -1,0 +1,20 @@
+[
+ {
+ "clsName" : "LPPCommodityVC",
+ "title" : "商品",
+ "image" : "main_home",
+ "selectImage" : "main_home_highlight"
+ },
+ {
+ "clsName" : "LPPShopCarVC",
+ "title" : "购物车",
+ "image" : "main_shopping",
+ "selectImage" : "main_shopping_highlight"
+ },
+ {
+ "clsName" : "LPPUserCenterVC",
+ "title" : "个人中心",
+ "image" : "main_user",
+ "selectImage" : "main_user_highlight"
+ }
+]

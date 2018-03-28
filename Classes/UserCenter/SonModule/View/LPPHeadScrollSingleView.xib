@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="LPPHeadScrollSingleView">
+            <rect key="frame" x="0.0" y="0.0" width="107" height="54"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MVA-ok-QiW">
+                    <rect key="frame" x="32.5" y="10" width="42" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="A78-BL-ypg">
+                    <rect key="frame" x="37.5" y="33" width="32" height="1"/>
+                    <color key="backgroundColor" red="0.3411764706" green="0.66666666669999997" blue="0.2470588235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="kMv-Ur-YlY"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.36078431370000003" green="0.72941176470000002" blue="0.98823529409999999" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="MVA-ok-QiW" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="4ID-2C-CbA"/>
+                <constraint firstItem="A78-BL-ypg" firstAttribute="leading" secondItem="MVA-ok-QiW" secondAttribute="leading" constant="5" id="BFu-2j-5UK"/>
+                <constraint firstItem="A78-BL-ypg" firstAttribute="top" secondItem="MVA-ok-QiW" secondAttribute="bottom" constant="2" id="BHA-sK-SHo"/>
+                <constraint firstItem="A78-BL-ypg" firstAttribute="trailing" secondItem="MVA-ok-QiW" secondAttribute="trailing" constant="-5" id="DBR-V0-BcD"/>
+                <constraint firstItem="A78-BL-ypg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="HmD-qV-UhU"/>
+                <constraint firstItem="MVA-ok-QiW" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Za0-ty-2dD"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="indicatorView" destination="A78-BL-ypg" id="fOD-uO-RAQ"/>
+                <outlet property="titleLabel" destination="MVA-ok-QiW" id="RaF-bC-52D"/>
+            </connections>
+            <point key="canvasLocation" x="-100.5" y="402"/>
+        </view>
+    </objects>
+</document>

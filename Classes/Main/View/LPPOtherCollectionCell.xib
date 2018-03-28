@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="LPPOtherCollectionCell">
+            <rect key="frame" x="0.0" y="0.0" width="114" height="38"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="114" height="38"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="D1o-RN-5No">
+                        <rect key="frame" x="1" y="1" width="112" height="36"/>
+                        <state key="normal" title="装饰摆件" backgroundImage="filtBtnBg.png">
+                            <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </state>
+                    </button>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="D1o-RN-5No" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="1" id="AxG-1n-Qdx"/>
+                <constraint firstAttribute="trailing" secondItem="D1o-RN-5No" secondAttribute="trailing" constant="1" id="Bx4-ah-nqA"/>
+                <constraint firstAttribute="bottom" secondItem="D1o-RN-5No" secondAttribute="bottom" constant="1" id="OY6-nm-SB9"/>
+                <constraint firstItem="D1o-RN-5No" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="1" id="WMc-gH-mDR"/>
+            </constraints>
+            <size key="customSize" width="114" height="38"/>
+            <connections>
+                <outlet property="typeBtn" destination="D1o-RN-5No" id="zEZ-iX-xhS"/>
+            </connections>
+            <point key="canvasLocation" x="-84" y="-25"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="filtBtnBg.png" width="76" height="27"/>
+    </resources>
+</document>

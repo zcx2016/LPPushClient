@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="54" id="KGk-i7-Jjw" customClass="LPPRefundTypeCell">
+            <rect key="frame" x="0.0" y="0.0" width="346" height="54"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="346" height="53.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ti3-wa-FXi">
+                        <rect key="frame" x="0.0" y="52.5" width="346" height="1"/>
+                        <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="LzF-7R-Et3"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="退款金额" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uiw-Z6-45p">
+                        <rect key="frame" x="15" y="18" width="61.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i4h-nK-oCu">
+                        <rect key="frame" x="86.5" y="18.5" width="37.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gec-I4-Gpy">
+                        <rect key="frame" x="325" y="15" width="6" height="22"/>
+                        <state key="normal" image="youArrow.png"/>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="ti3-wa-FXi" secondAttribute="bottom" id="3Be-uZ-m3K"/>
+                    <constraint firstItem="i4h-nK-oCu" firstAttribute="centerY" secondItem="uiw-Z6-45p" secondAttribute="centerY" id="8bc-NQ-eGe"/>
+                    <constraint firstAttribute="trailing" secondItem="gec-I4-Gpy" secondAttribute="trailing" constant="15" id="AIe-Ud-Xe0"/>
+                    <constraint firstItem="gec-I4-Gpy" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="JRN-sT-a2y"/>
+                    <constraint firstItem="i4h-nK-oCu" firstAttribute="leading" secondItem="uiw-Z6-45p" secondAttribute="trailing" constant="10" id="SlV-Lk-1wn"/>
+                    <constraint firstItem="uiw-Z6-45p" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="YSI-EC-2Ca"/>
+                    <constraint firstAttribute="trailing" secondItem="ti3-wa-FXi" secondAttribute="trailing" id="cEA-8Y-9yg"/>
+                    <constraint firstItem="ti3-wa-FXi" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="vNX-FL-7LM"/>
+                    <constraint firstItem="uiw-Z6-45p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zKp-mb-xuZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="indicatorBtn" destination="gec-I4-Gpy" id="hW0-Yq-juo"/>
+                <outlet property="refundDetailLabel" destination="i4h-nK-oCu" id="zBm-Vk-w06"/>
+                <outlet property="refundTitleLabel" destination="uiw-Z6-45p" id="KHY-Mp-joy"/>
+            </connections>
+            <point key="canvasLocation" x="105" y="46"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="youArrow.png" width="6" height="10"/>
+    </resources>
+</document>

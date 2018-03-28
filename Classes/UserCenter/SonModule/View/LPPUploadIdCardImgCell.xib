@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="408" id="KGk-i7-Jjw" customClass="LPPUploadIdCardImgCell">
+            <rect key="frame" x="0.0" y="0.0" width="420" height="408"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="420" height="407.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="idCard_front.png" translatesAutoresizingMaskIntoConstraints="NO" id="ftW-z4-a1o">
+                        <rect key="frame" x="90" y="39.5" width="240" height="150"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="240" id="Ldv-hj-Hi2"/>
+                            <constraint firstAttribute="height" constant="150" id="PVb-s9-FyI"/>
+                        </constraints>
+                    </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="idCard_back.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jjn-X5-O6c">
+                        <rect key="frame" x="90" y="234" width="240" height="150"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请上传身份证正面照" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0F-6p-i3I">
+                        <rect key="frame" x="15" y="10" width="147" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="请上传身份证背面照" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hdm-Qd-jeG">
+                        <rect key="frame" x="15" y="204.5" width="147" height="19.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="ftW-z4-a1o" firstAttribute="top" secondItem="B0F-6p-i3I" secondAttribute="bottom" constant="10" id="0dl-V2-pGI"/>
+                    <constraint firstItem="Hdm-Qd-jeG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="3yk-1g-usX"/>
+                    <constraint firstItem="ftW-z4-a1o" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="HIe-R8-Avd"/>
+                    <constraint firstItem="Jjn-X5-O6c" firstAttribute="trailing" secondItem="ftW-z4-a1o" secondAttribute="trailing" id="cti-hg-fr8"/>
+                    <constraint firstItem="B0F-6p-i3I" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="gaF-Zk-Hbq"/>
+                    <constraint firstItem="Jjn-X5-O6c" firstAttribute="top" secondItem="Hdm-Qd-jeG" secondAttribute="bottom" constant="10" id="hKV-jE-Q4s"/>
+                    <constraint firstItem="Jjn-X5-O6c" firstAttribute="height" secondItem="ftW-z4-a1o" secondAttribute="height" id="lCL-LH-6hn"/>
+                    <constraint firstItem="Hdm-Qd-jeG" firstAttribute="top" secondItem="ftW-z4-a1o" secondAttribute="bottom" constant="15" id="mZj-Zw-VBQ"/>
+                    <constraint firstItem="B0F-6p-i3I" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="wc9-wS-GkB"/>
+                    <constraint firstItem="Jjn-X5-O6c" firstAttribute="leading" secondItem="ftW-z4-a1o" secondAttribute="leading" id="zmo-aO-dfD"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="idCardBackImgView" destination="Jjn-X5-O6c" id="bX2-Uy-Xlg"/>
+                <outlet property="idCardFrontImgView" destination="ftW-z4-a1o" id="9Jh-Gw-pKf"/>
+            </connections>
+            <point key="canvasLocation" x="19" y="198"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="idCard_back.png" width="193" height="117"/>
+        <image name="idCard_front.png" width="193" height="117"/>
+    </resources>
+</document>

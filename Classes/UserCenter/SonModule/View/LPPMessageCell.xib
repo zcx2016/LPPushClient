@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="87" id="KGk-i7-Jjw" customClass="LPPMessageCell">
+            <rect key="frame" x="0.0" y="0.0" width="404" height="87"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="404" height="86.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zRi-wW-MtD">
+                        <rect key="frame" x="10" y="5" width="384" height="76.5"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bellCircle.png" translatesAutoresizingMaskIntoConstraints="NO" id="oPL-Ft-8yh">
+                                <rect key="frame" x="5" y="8" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="h8X-Lv-wFQ"/>
+                                    <constraint firstAttribute="width" constant="60" id="z73-Se-wJr"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统消息" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="arS-tp-Xev">
+                                <rect key="frame" x="70" y="13" width="65.5" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="您的订单1838238已发货，请耐心等待" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8IW-v3-mQf">
+                                <rect key="frame" x="70" y="47" width="261" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="arS-tp-Xev" firstAttribute="leading" secondItem="oPL-Ft-8yh" secondAttribute="trailing" constant="5" id="93z-tV-P2d"/>
+                            <constraint firstItem="oPL-Ft-8yh" firstAttribute="leading" secondItem="zRi-wW-MtD" secondAttribute="leading" constant="5" id="OrR-XW-h1z"/>
+                            <constraint firstItem="8IW-v3-mQf" firstAttribute="leading" secondItem="oPL-Ft-8yh" secondAttribute="trailing" constant="5" id="Ta2-ot-Tow"/>
+                            <constraint firstItem="arS-tp-Xev" firstAttribute="top" secondItem="oPL-Ft-8yh" secondAttribute="top" constant="5" id="Xe1-Hx-sRt"/>
+                            <constraint firstItem="8IW-v3-mQf" firstAttribute="bottom" secondItem="oPL-Ft-8yh" secondAttribute="bottom" constant="-3" id="aEB-9Y-4kT"/>
+                            <constraint firstItem="oPL-Ft-8yh" firstAttribute="centerY" secondItem="zRi-wW-MtD" secondAttribute="centerY" id="m3l-nz-04h"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="zRi-wW-MtD" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="Hwe-wH-ovs"/>
+                    <constraint firstAttribute="trailing" secondItem="zRi-wW-MtD" secondAttribute="trailing" constant="10" id="dfH-t9-Xb5"/>
+                    <constraint firstAttribute="bottom" secondItem="zRi-wW-MtD" secondAttribute="bottom" constant="5" id="nQ0-c3-wNg"/>
+                    <constraint firstItem="zRi-wW-MtD" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="uke-fk-dlz"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="msgDetailLabel" destination="8IW-v3-mQf" id="Q8e-GD-rBt"/>
+                <outlet property="msgTypeLabel" destination="arS-tp-Xev" id="JhS-Yp-Gfw"/>
+                <outlet property="outView" destination="zRi-wW-MtD" id="sun-Pp-xUw"/>
+                <outlet property="tagImgView" destination="oPL-Ft-8yh" id="Ucg-lN-SIv"/>
+            </connections>
+            <point key="canvasLocation" x="2" y="81.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="bellCircle.png" width="50" height="50"/>
+    </resources>
+</document>
