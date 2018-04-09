@@ -30,10 +30,22 @@
 - (void)setLadyManModel:(LPPLadyCommodityModel *)ladyManModel{
     _ladyManModel = ladyManModel;
     _goodsNameLabel.text = ladyManModel.goods_name;
-    _goodsPriceLabel.text = ladyManModel.goods_price;
+    _goodsPriceLabel.text = ladyManModel.current_price;
     _goodsOldPriceLabel.text = ladyManModel.goods_price;
     
     NSURL *imageUrl = [NSURL URLWithString:ladyManModel.goods_image];
+    [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+    }];
+}
+
+- (void)setGoodsListModel:(LPPGoodsListModel *)goodsListModel{
+    _goodsListModel = goodsListModel;
+    _goodsNameLabel.text = goodsListModel.goodName;
+    _goodsPriceLabel.text = goodsListModel.currentPrice;
+    _goodsOldPriceLabel.text = goodsListModel.goodPrice;
+    
+    NSURL *imageUrl = [NSURL URLWithString:goodsListModel.goodsPhoto];
     [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         
     }];

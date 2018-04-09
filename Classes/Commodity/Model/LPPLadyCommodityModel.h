@@ -14,5 +14,6 @@
 @property (nonatomic, copy) NSString  *goods_image;
 @property (nonatomic, copy) NSString  *goods_name;
 @property (nonatomic, copy) NSString  *goods_price;
+@property (nonatomic, copy) NSString  *current_price;
 
 @end

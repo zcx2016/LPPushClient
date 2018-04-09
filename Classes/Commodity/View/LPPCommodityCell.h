@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LPPActivityModel.h"
 #import "LPPLadyCommodityModel.h"
+#import "LPPGoodsListModel.h"
 
 @interface LPPCommodityCell : UICollectionViewCell
 
@@ -23,5 +24,7 @@
 @property (nonatomic, strong) LPPActivityModel *model;
 
 @property (nonatomic, strong) LPPLadyCommodityModel *ladyManModel;
+
+@property (nonatomic, strong) LPPGoodsListModel *goodsListModel;
 
 @end

@@ -84,7 +84,7 @@ static int const labelWith = 70;
     [self.navigationController.navigationBar setBackgroundImage:
      [UIImage imageNamed:@"userCenter_bg"] forBarMetrics:UIBarMetricsDefault];
     
-    [self loadBannerData];
+//    [self loadBannerData];
 }
 
 - (void)loadBannerData{

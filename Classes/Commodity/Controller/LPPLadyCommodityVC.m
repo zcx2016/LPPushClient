@@ -38,7 +38,7 @@
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/new_goodsclass.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-男士---%@",responseObject);
+        NSLog(@"你说你和 i--%@",responseObject);
         NSArray *dataArr = responseObject[@"goodsclass_list"];
         self.dataSource = [NSArray yy_modelArrayWithClass:[LPPLadyCommodityModel class] json:dataArr];
         self.headPhotoURL = [NSURL URLWithString:responseObject[@"photo"]];
@@ -105,7 +105,7 @@
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-150) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = [UIColor whiteColor];

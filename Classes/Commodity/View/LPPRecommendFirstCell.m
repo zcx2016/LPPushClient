@@ -8,7 +8,7 @@
 
 #import "LPPRecommendFirstCell.h"
 #import "LPPFirstCollectionCell.h"
-#import "LPPCommodityDetailVC.h"
+#import "LPPGoodsListVC.h"
 //model
 #import "LPPFirstCellModel.h"
 
@@ -70,9 +70,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    LPPCommodityDetailVC *vc = [LPPCommodityDetailVC new];
+    LPPGoodsListVC *vc = [LPPGoodsListVC new];
     LPPFirstCellModel *model = self.firstCellArray[indexPath.item];
-    vc.deliverID = model.secondId;
+    vc.tagID = model.secondId;
     [[self viewController].navigationController pushViewController:vc animated:YES];
 }
 
@@ -85,28 +85,6 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
     return CGSizeMake(200, 90);
 }
-
-//#pragma mark - 自定义headView
-//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-//    return CGSizeMake(kScreenWidth, 170);
-//}
-//
-//-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-//
-//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
-//        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-//        if (self.imgView) {
-//            [self.imgView removeFromSuperview];
-//        }
-//        NSURL *url = [NSURL URLWithString:@"http://192.168.6.155:8080/upload/class_icon/8e6cb6bd-ab4f-4341-98d9-0a72b2e9e298.jpg"];
-//        [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-//
-//        }];
-//        [headerView addSubview:self.imgView];
-//        return headerView;
-//    }
-//    return nil;
-//}
 
 #pragma mark - 懒加载
 - (UICollectionView *)collectionView{
