@@ -26,6 +26,7 @@
 {
     [self.searchTextField resignFirstResponder];
 }
+
 //点击 完成 收回 键盘
 - (BOOL)textFieldShouldReturn:(UITextField *)textField{
     return [textField resignFirstResponder];

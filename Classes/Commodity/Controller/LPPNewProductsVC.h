@@ -10,4 +10,6 @@
 
 @interface LPPNewProductsVC : UIViewController
 
+@property (nonatomic, copy) NSString  *tagId;
+
 @end

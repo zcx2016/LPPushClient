@@ -7,6 +7,7 @@
 //
 
 #import "ATCarouselView.h"
+#import <SDWebImage/UIButton+WebCache.h>
 
 static const int imageBtnCount = 3;
 
@@ -134,8 +135,13 @@ static const int imageBtnCount = 3;
         }
         imageBtn.tag = index;
         //用上面处理好的索引给imageBtn设置图片
-        [imageBtn setBackgroundImage:self.images[index] forState:UIControlStateNormal];
-        [imageBtn setBackgroundImage:self.images[index] forState:UIControlStateHighlighted];
+
+//        [imageBtn setBackgroundImage:self.images[index] forState:UIControlStateNormal];
+//        [imageBtn setBackgroundImage:self.images[index] forState:UIControlStateHighlighted];
+        
+        if (self.images.count != 0) {  //加载网络图片
+                [imageBtn sd_setBackgroundImageWithURL:self.images[index] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"bannerHead"]];
+        }
     }
 }
 

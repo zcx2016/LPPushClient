@@ -11,7 +11,6 @@
 #import "ZCXActionSheetHeadView.h"
 #import "ZCXActionSheetFootView.h"
 
-
 @interface ZCXActionSheetView()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -150,7 +149,6 @@
         if (!footView) {
             footView = [[ZCXActionSheetFootView alloc] initWithReuseIdentifier:@"ZCXActionSheetFootView"];
         }
-        
         return footView;
     }
     return [[UIView alloc] init];

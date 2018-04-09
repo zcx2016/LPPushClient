@@ -16,4 +16,17 @@
     
 }
 
+- (void)setModel:(LPPSecondCellModel *)model{
+    _model = model;
+    self.goodsNameLabel.text = model.goodName;
+    if (model.goodPrice.length != 0) {
+        self.goodsPriceLabel.text = [@"￥" stringByAppendingString:model.goodPrice];
+    }
+    //
+    NSURL *imageUrl = [NSURL URLWithString:model.goodsPhoto];
+    [self.imgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+    }];
+}
+
 @end

@@ -21,6 +21,4 @@
     self.midCircleView.layer.masksToBounds = YES;
 }
 
-
-
 @end

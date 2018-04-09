@@ -8,10 +8,15 @@
 
 #import "LPPRecommendSecondCell.h"
 #import "LPPSecondCollectionCell.h"
+#import "LPPSecondCellModel.h"
+#import "LPPCommodityDetailVC.h"
 
 @interface LPPRecommendSecondCell()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+//3级大图数组
+@property (nonatomic, strong) NSArray <LPPSecondCellModel *>*cellArray;
 
 @end
 
@@ -23,7 +28,15 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     
     [self collectionView];
-//    self.backgroundColor = [UIColor purpleColor];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    NSLog(@"data===%@",self.dataSource);
+    if (self.dataSource.count!=0) {
+        _cellArray = [NSArray yy_modelArrayWithClass:[LPPSecondCellModel class] json:self.dataSource];
+        [self.collectionView reloadData];
+    }
 }
 
 #pragma  mark - UICollectionViewDelegate
@@ -32,14 +45,15 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 5;
+    return self.dataSource.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     LPPSecondCollectionCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPSecondCollectionCell" forIndexPath:indexPath] ;
-    
+    LPPSecondCellModel *model = _cellArray[indexPath.item];
+    cell.model = model;
     return cell;
 }
 
@@ -53,6 +67,13 @@
     return CGSizeMake(120, 160);
 }
 
+#pragma mark - 点击cell
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    LPPCommodityDetailVC * vc = [LPPCommodityDetailVC new];
+    LPPSecondCellModel *model = _cellArray[indexPath.item];
+    vc.deliverID = model.goodId;
+    [[self viewController].navigationController pushViewController:vc animated:YES];
+}
 
 #pragma mark - 懒加载
 - (UICollectionView *)collectionView{
@@ -73,5 +94,15 @@
     return _collectionView;
 }
 
-
+//获取控制器
+- (UIViewController *)viewController
+{
+    for (UIView* next = [self superview]; next; next = next.superview) {
+        UIResponder *nextResponder = [next nextResponder];
+        if ([nextResponder isKindOfClass:[UIViewController class]]) {
+            return (UIViewController *)nextResponder;
+        }
+    }
+    return nil;
+}
 @end

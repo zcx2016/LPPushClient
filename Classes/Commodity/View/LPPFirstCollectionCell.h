@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPFirstCellModel.h"
 
 @interface LPPFirstCollectionCell : UICollectionViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *goodsImgView;
+@property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
+
+@property (nonatomic, strong) LPPFirstCellModel *model;
 
 @end

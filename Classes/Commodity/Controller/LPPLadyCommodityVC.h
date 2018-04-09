@@ -10,4 +10,6 @@
 
 @interface LPPLadyCommodityVC : UIViewController
 
+@property (nonatomic, copy) NSString  *tagId;
+
 @end

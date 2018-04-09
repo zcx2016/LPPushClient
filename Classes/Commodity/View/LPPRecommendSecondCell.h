@@ -10,6 +10,8 @@
 
 @interface LPPRecommendSecondCell : UITableViewCell
 
+@property (nonatomic, copy) NSString  *tagId;
 
+@property (nonatomic, strong) NSArray *dataSource;
 
 @end

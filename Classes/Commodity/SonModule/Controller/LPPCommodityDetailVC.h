@@ -10,4 +10,6 @@
 
 @interface LPPCommodityDetailVC : UIViewController
 
+@property (nonatomic, copy) NSString  *deliverID;
+
 @end

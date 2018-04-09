@@ -8,7 +8,6 @@
 
 #import "LPPNavSearchView.h"
 
-
 @implementation LPPNavSearchView
 
 - (void)awakeFromNib{
@@ -22,10 +21,7 @@
     self.searchTextField.delegate = self;
     //进入后台时取消键盘响应事件
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
-
 }
-
-
 
 //进入后台时取消键盘响应事件
 - (void)applicationDidEnterBackground:(NSNotification *)paramNotification
@@ -58,7 +54,6 @@
 - (CGSize)intrinsicContentSize {
     return UILayoutFittingExpandedSize;
 }
-
 
 //获取控制器
 - (UIViewController *)viewController

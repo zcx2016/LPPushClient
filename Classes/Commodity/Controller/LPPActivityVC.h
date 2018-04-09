@@ -10,4 +10,6 @@
 
 @interface LPPActivityVC : UIViewController
 
+@property (nonatomic, copy) NSString  *tagId;
+
 @end

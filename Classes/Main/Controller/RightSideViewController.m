@@ -47,6 +47,8 @@
     [self tableView];
 }
 
+
+
 - (LPPFilterBottomView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[NSBundle mainBundle] loadNibNamed:@"LPPFilterBottomView" owner:nil options:nil].lastObject;

@@ -19,6 +19,8 @@
 #import "LPPCommodityDetailVC.h"
 #import "LCCSearchVC.h"
 
+//model
+
 static int const labelWith = 70;
 
 @interface LPPCommodityVC ()<UIScrollViewDelegate>
@@ -31,6 +33,8 @@ static int const labelWith = 70;
 @property (nonatomic, strong) LPPNavSearchView *navSearchView;
 
 @property(nonatomic,strong) UIButton *lineBtn;
+
+@property (nonatomic, strong) NSArray *bannerDataSource;
 
 @end
 
@@ -82,24 +86,20 @@ static int const labelWith = 70;
     
 //    [self loadData];
     
-    [self tempLogin];
-    
+    [self loadBannerData];
 }
 
-- (void)tempLogin{
-    NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"000000" , @"roleJudge" : @"PUSHING"};
-    [ZcxUserDefauts setObject:@"13512345679" forKey:@"telephone"];
-    [ZcxUserDefauts setObject:@"000000" forKey:@"password"];
-    
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/jopen_shop_user_login.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+- (void)loadBannerData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"port_name" : @"PUSHING" , @"user_id" : user_id};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/index_banner.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"banner--responseObject--%@",responseObject);
+        self.bannerDataSource = responseObject[@"json_list"];
         
-        NSLog(@"res----%@",responseObject);
-        [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
-        [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
-        [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error----%@",error);
+        NSLog(@"banner-error--%@",error);
     }];
 }
 
@@ -133,7 +133,6 @@ static int const labelWith = 70;
 
 #pragma mark - 弹出右边筛选
 - (void)externEvents:(UIButton *)btn{
-    
     [self.viewDeckController openSide:IIViewDeckSideRight animated:YES];
 }
 
@@ -357,33 +356,38 @@ static int const labelWith = 70;
 -(void)setAllChildController{
     //推荐
     LPPRecommendVC *oneVC = [[LPPRecommendVC alloc]init];
+//    oneVC.title = modelArr[0][@"name"];
     oneVC.title = @"推荐";
     [self addChildViewController:oneVC];
     
     //活动
     LPPActivityVC *twoVC = [[LPPActivityVC alloc]init];
+//    twoVC.title = modelArr[1][@"name"];
     twoVC.title = @"活动";
     [self addChildViewController:twoVC];
     
     //新品
     LPPNewProductsVC *threeVC = [[LPPNewProductsVC alloc]init];
+//    threeVC.title = modelArr[2][@"name"];
     threeVC.title = @"新品";
     [self addChildViewController:threeVC];
     
-    //女士
+    //男士
     LPPLadyCommodityVC *fourVC = [[LPPLadyCommodityVC alloc]init];
-    fourVC.title = @"女士";
+//    fourVC.title = modelArr[3][@"name"];
+    fourVC.title = @"男士";
     [self addChildViewController:fourVC];
     
-    //男士
+    //女士
     LPPLadyCommodityVC *fiveVC = [[LPPLadyCommodityVC alloc]init];
-    fiveVC.title = @"男士";
+//    fiveVC.title = modelArr[4][@"name"];
+    fiveVC.title = @"女士";
     [self addChildViewController:fiveVC];
     
-    //美妆
-    LPPLadyCommodityVC *sixVC = [[LPPLadyCommodityVC alloc]init];
-    sixVC.title = @"美妆";
-    [self addChildViewController:sixVC];
+//    //美妆
+//    LPPLadyCommodityVC *sixVC = [[LPPLadyCommodityVC alloc]init];
+//    sixVC.title = @"美妆";
+//    [self addChildViewController:sixVC];
 }
 
 @end

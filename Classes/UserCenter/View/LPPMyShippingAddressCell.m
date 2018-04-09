@@ -52,7 +52,6 @@
     }
 }
 
-
 - (void)setModel:(LPPMyShippingAddressModel *)model{
     _model = model;
     

@@ -10,4 +10,10 @@
 
 @interface LPPRecommendFooterView : UITableViewHeaderFooterView
 
+@property (weak, nonatomic) IBOutlet UIImageView *firstImgView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *secondImgView;
+
+@property (weak, nonatomic) IBOutlet UIImageView *thirdImgView;
+
 @end

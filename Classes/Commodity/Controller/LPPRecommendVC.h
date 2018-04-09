@@ -10,4 +10,5 @@
 
 @interface LPPRecommendVC : UIViewController
 
+@property (nonatomic, copy) NSString  *tagId;
 @end

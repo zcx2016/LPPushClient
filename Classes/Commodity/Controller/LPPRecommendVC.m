@@ -13,6 +13,8 @@
 #import "ATCarouselView.h"
 #import "LPPCommodityDetailVC.h"
 
+#import "LPPSecondCellOutModel.h"
+
 @interface LPPRecommendVC ()<UITableViewDelegate,UITableViewDataSource,ATCarouselViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -21,42 +23,78 @@
 @property (nonatomic, strong) UIImageView *imgView2;
 
 @property (nonatomic, strong) ATCarouselView *carouselView;
+
+//轮播数组
+@property (nonatomic, strong) NSArray *lunBoArray;
+@property (nonatomic, strong) NSMutableArray *imgArray;
+
+//第2，3
+@property (nonatomic, strong) NSArray *secondArray;
+
 @end
 
 @implementation LPPRecommendVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.imgArray = [NSMutableArray array];
     
     [self tableView];
     
-//    [self loadData];
-    
-    [self loadGuiGeData];
+    [self loadLunBoData];
+    [self loadSecondCellData];
+    [self loadFooterViewData];
 }
 
-- (void)loadGuiGeData{
+- (void)loadLunBoData{
     NSDictionary *dict = @{@"id" : @"38"};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_specs.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject--%@",responseObject);
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_adv.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.lunBoArray = responseObject[@"json_list"];
+        for (NSDictionary *dict in self.lunBoArray) {
+            NSURL *imageUrl = [NSURL URLWithString:dict[@"advPhoto"]];
+            [self.imgArray addObject:imageUrl];
+        }
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error--%@",error);
+        
     }];
 }
 
-- (void)loadData{
-    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
-    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSString *ID = @"38";
-    NSDictionary *dict = @{@"user_id" : user_id, @"token" : token,@"id" : ID};
+- (void)loadSecondCellData{
+    self.tagId = @"1";
+    NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject--%@",responseObject);
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_big_photo.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.secondArray = responseObject[@"json_list"];
+        NSLog(@"???---%@",self.secondArray);
+
+//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error--%@",error);
+        
     }];
 }
+
+- (void)loadFooterViewData{
+    self.tagId = @"1";
+    NSDictionary *dict = @{@"id" : self.tagId};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/man_women.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.secondArray = responseObject[@"json_list"];
+        NSLog(@"!!!---%@",self.secondArray);
+        
+        //        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
+        [self.tableView reloadData];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
+
+
 
 #pragma mark - tableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -71,11 +109,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         LPPRecommendFirstCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendFirstCell" forIndexPath:indexPath];
-        
+  
+        return cell;
+    }else if (indexPath.section == 1){
+        LPPRecommendSecondCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendSecondCell" forIndexPath:indexPath];
+        cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
         return cell;
     }else{
         LPPRecommendSecondCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendSecondCell" forIndexPath:indexPath];
-        
+        cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
         return cell;
     }
 }
@@ -109,7 +151,7 @@
         if (!view) {
             view = [[UITableViewHeaderFooterView alloc] initWithReuseIdentifier:@"LunBo"];
         }
-        [view addSubview:[self carouselView]];
+        [view addSubview:[self setLunBo]];
         return view;
     }else if (section == 1){
         UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Cloth"];
@@ -119,7 +161,15 @@
         if (self.imgView) {
             [self.imgView removeFromSuperview];
         }
-        self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bannerCloth"]];
+        
+        NSString *secondID = self.secondArray[section -1][@"secondId"];
+        
+        NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
+        NSLog(@"++%@\n---%@",secondID,url);
+        [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            NSLog(@"成功？？--image--%@---error-%@---cacheType-%ld--imageURL--%@",image,error,(long)cacheType,imageURL);
+        }];
+//        self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bannerCloth"]];
         [view addSubview:self.imgView];
         return view;
     }else{
@@ -178,21 +228,17 @@
     NSLog(@"点击了第%ld张图片",index);
 }
 
-- (ATCarouselView *)carouselView{
-    if (!_carouselView) {
-        _carouselView = [[ATCarouselView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
-        _carouselView.delegate = self;
-        _carouselView.images = @[
-                                     [UIImage imageNamed:@"bannerHead"],
-                                     [UIImage imageNamed:@"bannerBag"],
-                                     [UIImage imageNamed:@"bannerKids"],
-                                     [UIImage imageNamed:@"bannerMan"]
-                                     ];
-        //当前选中颜色
-        _carouselView.currentPageColor = [UIColor blackColor];
-        //普通状态颜色
-        _carouselView.pageColor = [UIColor lightGrayColor];
+- (ATCarouselView *)setLunBo{
+    if (_carouselView) {
+        [_carouselView removeFromSuperview];
     }
+    _carouselView = [[ATCarouselView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 200)];
+    _carouselView.delegate = self;
+    _carouselView.images = [self.imgArray copy];
+    //当前选中颜色
+    _carouselView.currentPageColor = [UIColor blackColor];
+    //普通状态颜色
+    _carouselView.pageColor = [UIColor lightGrayColor];
     return _carouselView;
 }
 

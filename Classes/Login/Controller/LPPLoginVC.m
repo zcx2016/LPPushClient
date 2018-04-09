@@ -54,13 +54,13 @@
 
 - (void)loginBtnClick:(UIButton *)btn{
     
-    NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"111111" , @"roleJudge" : @"PUSHING"};
+    NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"000000" , @"roleJudge" : @"PUSHING"};
     [ZcxUserDefauts setObject:@"13512345679" forKey:@"telephone"];
-    [ZcxUserDefauts setObject:@"111111" forKey:@"password"];
+    [ZcxUserDefauts setObject:@"000000" forKey:@"password"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/jopen_shop_user_login.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"res----%@",responseObject);
+        NSLog(@"登录res----%@",responseObject);
         [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
-        [ZcxUserDefauts setObject:responseObject[@"\"user_id\""] forKey:@"user_id"];
+        [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
         [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
         
         //登录按钮暂时做退出使用
@@ -69,7 +69,7 @@
         });
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"error----%@",error);
+        NSLog(@"登录error----%@",error);
     }];
     
 }

@@ -10,4 +10,6 @@
 
 @interface LPPRecommendFirstCell : UITableViewCell
 
+@property (nonatomic, copy) NSString  *tagId;
+
 @end

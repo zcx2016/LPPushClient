@@ -9,10 +9,17 @@
 #import "LPPRecommendFirstCell.h"
 #import "LPPFirstCollectionCell.h"
 #import "LPPCommodityDetailVC.h"
+//model
+#import "LPPFirstCellModel.h"
 
 @interface LPPRecommendFirstCell()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+//2级小图数组
+@property (nonatomic, strong) NSArray *firstCellArray;
+
+@property (nonatomic, strong) UIImageView *imgView;
 
 @end
 
@@ -26,6 +33,22 @@
     self.backgroundColor = [UIColor clearColor];
     
     [self collectionView];
+    [self loadFirstCellData];
+}
+
+- (void)loadFirstCellData{
+    self.tagId = @"1";
+    NSDictionary *dict = @{@"id" : self.tagId};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_small_photo.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.firstCellArray = [NSArray yy_modelArrayWithClass:[LPPFirstCellModel class] json:responseObject[@"json_list"]];
+        
+        [self.collectionView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 #pragma  mark - UICollectionViewDelegate
@@ -34,19 +57,22 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 5;
+    return self.firstCellArray.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
 
     LPPFirstCollectionCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPFirstCollectionCell" forIndexPath:indexPath] ;
-    
+    LPPFirstCellModel *model = self.firstCellArray[indexPath.item];
+    cell.model = model;
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPCommodityDetailVC *vc = [LPPCommodityDetailVC new];
+    LPPFirstCellModel *model = self.firstCellArray[indexPath.item];
+    vc.deliverID = model.secondId;
     [[self viewController].navigationController pushViewController:vc animated:YES];
 }
 
@@ -60,6 +86,27 @@
     return CGSizeMake(200, 90);
 }
 
+//#pragma mark - 自定义headView
+//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+//    return CGSizeMake(kScreenWidth, 170);
+//}
+//
+//-(UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+//
+//    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+//        UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
+//        if (self.imgView) {
+//            [self.imgView removeFromSuperview];
+//        }
+//        NSURL *url = [NSURL URLWithString:@"http://192.168.6.155:8080/upload/class_icon/8e6cb6bd-ab4f-4341-98d9-0a72b2e9e298.jpg"];
+//        [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+//
+//        }];
+//        [headerView addSubview:self.imgView];
+//        return headerView;
+//    }
+//    return nil;
+//}
 
 #pragma mark - 懒加载
 - (UICollectionView *)collectionView{
@@ -72,6 +119,8 @@
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
+        //注册headView
+//        [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
         //注册cell
         [_collectionView registerNib:[UINib nibWithNibName:@"LPPFirstCollectionCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"LPPFirstCollectionCell"];
         

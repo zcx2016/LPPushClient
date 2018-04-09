@@ -7,9 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPSecondCellModel.h"
 
 @interface LPPSecondCollectionCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
 
+@property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *goodsPriceLabel;
+
+@property (nonatomic, strong) LPPSecondCellModel *model;
 @end

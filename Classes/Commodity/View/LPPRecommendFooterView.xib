@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -43,6 +43,11 @@
                 <constraint firstItem="6as-7s-0yf" firstAttribute="height" secondItem="neL-2E-83S" secondAttribute="height" id="ziX-8R-Y2K"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="firstImgView" destination="neL-2E-83S" id="qUz-VM-tFX"/>
+                <outlet property="secondImgView" destination="6as-7s-0yf" id="udI-KY-ncV"/>
+                <outlet property="thirdImgView" destination="zG6-9R-JVG" id="0tI-Jj-2u8"/>
+            </connections>
             <point key="canvasLocation" x="63" y="71.5"/>
         </view>
     </objects>
