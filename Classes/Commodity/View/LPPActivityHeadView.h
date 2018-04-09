@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPActivityHeadModel.h"
 
 @interface LPPActivityHeadView : UICollectionReusableView
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, strong) LPPActivityHeadModel *headModel;
 
 @end

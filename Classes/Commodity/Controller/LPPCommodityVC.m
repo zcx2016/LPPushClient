@@ -84,8 +84,6 @@ static int const labelWith = 70;
     [self.navigationController.navigationBar setBackgroundImage:
      [UIImage imageNamed:@"userCenter_bg"] forBarMetrics:UIBarMetricsDefault];
     
-//    [self loadData];
-    
     [self loadBannerData];
 }
 
@@ -103,17 +101,6 @@ static int const labelWith = 70;
     }];
 }
 
-- (void)loadData{
-    NSDictionary *dict = @{};
-    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@""] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"-responseObject---%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"---error -- %@",error);
-    }];
-}
 
 - (LPPNavSearchView *)navSearchView{
     if (!_navSearchView) {
@@ -358,36 +345,37 @@ static int const labelWith = 70;
     LPPRecommendVC *oneVC = [[LPPRecommendVC alloc]init];
 //    oneVC.title = modelArr[0][@"name"];
     oneVC.title = @"推荐";
+    oneVC.tagId = @"1";
     [self addChildViewController:oneVC];
     
     //活动
     LPPActivityVC *twoVC = [[LPPActivityVC alloc]init];
 //    twoVC.title = modelArr[1][@"name"];
     twoVC.title = @"活动";
+    twoVC.tagId = @"3";
     [self addChildViewController:twoVC];
     
     //新品
     LPPNewProductsVC *threeVC = [[LPPNewProductsVC alloc]init];
 //    threeVC.title = modelArr[2][@"name"];
     threeVC.title = @"新品";
+    threeVC.tagId = @"5";
     [self addChildViewController:threeVC];
     
     //男士
     LPPLadyCommodityVC *fourVC = [[LPPLadyCommodityVC alloc]init];
 //    fourVC.title = modelArr[3][@"name"];
     fourVC.title = @"男士";
+    fourVC.tagId = @"42";
     [self addChildViewController:fourVC];
     
     //女士
     LPPLadyCommodityVC *fiveVC = [[LPPLadyCommodityVC alloc]init];
 //    fiveVC.title = modelArr[4][@"name"];
     fiveVC.title = @"女士";
+    fiveVC.tagId = @"43";
     [self addChildViewController:fiveVC];
     
-//    //美妆
-//    LPPLadyCommodityVC *sixVC = [[LPPLadyCommodityVC alloc]init];
-//    sixVC.title = @"美妆";
-//    [self addChildViewController:sixVC];
 }
 
 @end

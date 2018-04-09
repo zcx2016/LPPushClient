@@ -38,6 +38,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.imgArray = [NSMutableArray array];
+    self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
+    self.imgView2 = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
     
     [self tableView];
     
@@ -167,10 +169,10 @@
         NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
         NSLog(@"++%@\n---%@",secondID,url);
         [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
-            NSLog(@"成功？？--image--%@---error-%@---cacheType-%ld--imageURL--%@",image,error,(long)cacheType,imageURL);
+
         }];
-//        self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bannerCloth"]];
         [view addSubview:self.imgView];
+
         return view;
     }else{
         UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:@"Bag"];
@@ -180,7 +182,13 @@
         if (self.imgView2) {
             [self.imgView2 removeFromSuperview];
         }
-        self.imgView2 =[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bannerBag"]];
+        NSString *secondID = self.secondArray[section -1][@"secondId"];
+        
+        NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
+        NSLog(@"++%@\n---%@",secondID,url);
+        [self.imgView2 sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            
+        }];
         [view addSubview:self.imgView2];
         return view;
     }

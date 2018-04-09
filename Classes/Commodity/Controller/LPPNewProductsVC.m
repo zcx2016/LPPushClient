@@ -10,11 +10,13 @@
 #import "LPPCommodityCell.h"
 #import "LPPCommodityDetailVC.h"
 #import "LPPActivityHeadView.h"
+#import "LPPActivityHeadModel.h"
 
 @interface LPPNewProductsVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) UILabel *activityTitleLabel;
+
+@property (nonatomic, strong) NSArray <LPPActivityHeadModel *>*dataSource;
 @end
 
 @implementation LPPNewProductsVC
@@ -23,21 +25,43 @@
     [super viewDidLoad];
     
     [self collectionView];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    self.tagId = @"5";
+    NSDictionary *dict = @{@"id" : self.tagId};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/activity_new_goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSArray *arr1 = responseObject[@"json_list"];
+        NSArray *arr2 = [NSArray array];
+        for (NSDictionary *dict in arr1) {
+            arr2 = dict[@"firstList"];
+        }
+        self.dataSource = [NSArray yy_modelArrayWithClass:[LPPActivityHeadModel class] json:arr2];
+        [self.collectionView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 #pragma  mark - UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 2;
+    return self.dataSource.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 6;
+    return [self.dataSource objectAtIndex:section].secondList.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPCommodityCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPCommodityCell" forIndexPath:indexPath] ;
-    
+    LPPActivityModel *model = [[self.dataSource objectAtIndex:indexPath.section].secondList objectAtIndex:indexPath.row];
+    cell.model = model;
     return cell;
 }
 
@@ -48,7 +72,7 @@
 
 //定义每一个cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(105, 210);
+    return CGSizeMake(105, 180);
 }
 
 #pragma mark - 自定义headView
@@ -65,11 +89,10 @@
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         LPPActivityHeadView *reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"LPPActivityHeadView" forIndexPath:indexPath];
-        if (indexPath.section == 0) {
-            reusableView.titleLabel.text = @"新品11111";
-        }else{
-            reusableView.titleLabel.text = @"新品22222";
-        }
+        
+        LPPActivityHeadModel *model = [self.dataSource objectAtIndex:indexPath.section];
+        
+        reusableView.headModel = model;
         return reusableView;
     }
     return nil;

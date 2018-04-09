@@ -32,7 +32,6 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    NSLog(@"data===%@",self.dataSource);
     if (self.dataSource.count!=0) {
         _cellArray = [NSArray yy_modelArrayWithClass:[LPPSecondCellModel class] json:self.dataSource];
         [self.collectionView reloadData];

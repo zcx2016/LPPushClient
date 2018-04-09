@@ -54,11 +54,11 @@
 - (void)loadData{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token};
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token,@"pageNo" : @"0" , @"pageSize" : @"0"};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_cart1.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-responseObject---%@",responseObject);
+        NSLog(@"-购物车---%@",responseObject);
         NSArray *dataArray = responseObject[@"cart_list"];
         self.dataSource = [NSArray yy_modelArrayWithClass:[LPPShopCarModel class] json:dataArray];
         [self.tableView reloadData];
@@ -173,7 +173,6 @@
 
 - (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"index===%ld",(long)indexPath.section);
     return UITableViewCellEditingStyleDelete;
 }
 

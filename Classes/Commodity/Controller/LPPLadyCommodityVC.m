@@ -9,12 +9,17 @@
 #import "LPPLadyCommodityVC.h"
 #import "LPPCommodityCell.h"
 #import "LPPCommodityDetailVC.h"
+#import "LPPLadyCommodityModel.h"
 
 @interface LPPLadyCommodityVC ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) UIImageView *imgView;
+
+@property (nonatomic, strong) NSArray <LPPLadyCommodityModel *> *dataSource;
+
+@property (nonatomic, strong) NSURL *headPhotoURL;
 @end
 
 @implementation LPPLadyCommodityVC
@@ -22,7 +27,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.imgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 170)];
     [self collectionView];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSDictionary *dict = @{@"id" : self.tagId};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/new_goodsclass.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-男士---%@",responseObject);
+        NSArray *dataArr = responseObject[@"goodsclass_list"];
+        self.dataSource = [NSArray yy_modelArrayWithClass:[LPPLadyCommodityModel class] json:dataArr];
+        self.headPhotoURL = [NSURL URLWithString:responseObject[@"photo"]];
+        [self.collectionView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 #pragma  mark - UICollectionViewDelegate
@@ -31,13 +55,14 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 15;
+    return self.dataSource.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPCommodityCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPCommodityCell" forIndexPath:indexPath] ;
-    
+    LPPLadyCommodityModel *model = self.dataSource[indexPath.row];
+    cell.ladyManModel = model;
     return cell;
 }
 
@@ -48,7 +73,7 @@
 
 //定义每一个cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(105, 210);
+    return CGSizeMake(105, 180);
 }
 
 #pragma mark - 自定义headView
@@ -65,11 +90,11 @@
     
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         UICollectionReusableView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView" forIndexPath:indexPath];
-        if (self.imgView) {
-            [self.imgView removeFromSuperview];
-        }
-        self.imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"banner2"]];
-        //联通数据时用SDWebImg
+
+        [self.imgView sd_setImageWithURL:self.headPhotoURL placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+
+        }];
+
         [headerView addSubview:self.imgView];
         return headerView;
     }

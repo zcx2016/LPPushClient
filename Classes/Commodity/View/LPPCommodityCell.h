@@ -7,7 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPActivityModel.h"
+#import "LPPLadyCommodityModel.h"
 
 @interface LPPCommodityCell : UICollectionViewCell
+
+@property (weak, nonatomic) IBOutlet UIImageView *goodsImgView;
+
+@property (weak, nonatomic) IBOutlet UILabel *goodsNameLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *goodsPriceLabel;
+
+@property (weak, nonatomic) IBOutlet UILabel *goodsOldPriceLabel;
+
+@property (nonatomic, strong) LPPActivityModel *model;
+
+@property (nonatomic, strong) LPPLadyCommodityModel *ladyManModel;
 
 @end

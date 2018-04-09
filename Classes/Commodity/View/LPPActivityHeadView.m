@@ -15,4 +15,9 @@
 
 }
 
+- (void)setHeadModel:(LPPActivityHeadModel *)headModel{
+    _headModel = headModel;
+    _titleLabel.text = headModel.secondName;
+}
+
 @end
