@@ -34,7 +34,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    [self loadData];
+    [self loadData];
 }
 
 - (void)loadData{

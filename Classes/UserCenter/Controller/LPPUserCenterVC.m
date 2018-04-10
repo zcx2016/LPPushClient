@@ -23,25 +23,14 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, copy) NSString  *userName;
+@property (nonatomic, copy) NSString  *storeName;
+//系统消息数量
+@property (nonatomic, copy) NSString  *systemMessage;
 @end
 
 @implementation LPPUserCenterVC
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-    //设置导航栏背景图片为一个空的image，这样就透明了
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    
-    //去掉透明后导航栏下边的黑边
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    
-    //  如果不想让其他页面的导航栏变为透明 需要重置
-    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:nil];
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -51,6 +40,25 @@
     [self setNav];
     //懒加载tableView
     [self tableView];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"user_id" : user_id};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/index.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+//        NSLog(@"-个人中心---%@",responseObject);
+        self.userName = responseObject[@"userName"];
+        self.storeName = responseObject[@"storeName"];
+        self.systemMessage = responseObject[@"systemMessage"];
+        
+        [self.tableView reloadData];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 - (void)setNav{
@@ -135,6 +143,9 @@
     [headView.editBtn addTarget:self action:@selector(editBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     headView.headIcon.userInteractionEnabled = YES;
     
+    headView.nameLabel.text = self.userName;
+    headView.addressLabel.text = self.storeName;
+    
     [headView.headIcon addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapEvents:)]];
     return headView;
 }
@@ -170,6 +181,22 @@
         [self.view addSubview:_tableView];
     }
     return _tableView;
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    
+    //设置导航栏背景图片为一个空的image，这样就透明了
+    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    
+    //去掉透明后导航栏下边的黑边
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    
+    //  如果不想让其他页面的导航栏变为透明 需要重置
+    [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:nil];
 }
 
 @end

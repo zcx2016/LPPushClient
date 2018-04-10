@@ -10,4 +10,6 @@
 
 @interface LPPFiltBrandCell : UITableViewCell
 
+@property (nonatomic, strong) NSArray *brandListArray;
+@property (nonatomic, assign) CGFloat brandHeight;
 @end

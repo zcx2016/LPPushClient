@@ -39,6 +39,21 @@
     self.navigationItem.title = @"消息";
     
     [self tableView];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"user_id" : user_id};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/message.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-消息---%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 #pragma mark - tableView Delegate

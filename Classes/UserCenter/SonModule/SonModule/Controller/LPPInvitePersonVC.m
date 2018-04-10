@@ -12,6 +12,10 @@
 @interface LPPInvitePersonVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, copy) NSString  *inviteCode;
+@property (nonatomic, copy) NSString  *inviteName;
+@property (nonatomic, copy) NSString  *invitePhone;
 @end
 
 @implementation LPPInvitePersonVC
@@ -24,6 +28,24 @@
     
     [self.navigationController.navigationBar setBackgroundImage:
      [UIImage imageNamed:@"writeOrder_bg"] forBarMetrics:UIBarMetricsDefault];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"user_id" : user_id};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/data.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.inviteCode = responseObject[@"invitationCode"];
+        self.inviteName = responseObject[@"userName"];
+        self.invitePhone = responseObject[@"jobNumber"];
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 #pragma mark - tableView Delegate
@@ -45,13 +67,13 @@
     cell.diyDetailLabel.textColor = [UIColor lightGrayColor];
     if (indexPath.row == 0) {
         cell.diyTitleLabel.text = @"邀请码";
-        cell.diyDetailLabel.text = @"ASDWERNG";
+        cell.diyDetailLabel.text = self.inviteCode;
     }else if (indexPath.row == 1){
         cell.diyTitleLabel.text = @"邀请人姓名";
-        cell.diyDetailLabel.text = @"Jack";
+        cell.diyDetailLabel.text = self.inviteName;
     }else{
         cell.diyTitleLabel.text = @"邀请人联系方式";
-        cell.diyDetailLabel.text = @"18827360823";
+        cell.diyDetailLabel.text = self.invitePhone;
     }
     
     return cell;

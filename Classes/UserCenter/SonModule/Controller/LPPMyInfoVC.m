@@ -23,6 +23,10 @@
 
 @property (nonatomic, copy) NSMutableAttributedString  *richTextStr;
 
+@property (nonatomic, copy) NSString  *phoneNum;
+
+@property (nonatomic, copy) NSString  *nickName;
+
 @end
 
 @implementation LPPMyInfoVC
@@ -55,6 +59,24 @@
     [invitePersonBtn setImage:[UIImage imageNamed:@"myInfo_add"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:invitePersonBtn];
     [invitePersonBtn addTarget:self action:@selector(invitePersonEvent:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"user_id" : user_id };
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/index_update_user.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-我的资料---%@",responseObject);
+        self.phoneNum = responseObject[@"tel"];
+        self.nickName = responseObject[@"name"];
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 - (void)invitePersonEvent:(UIButton *)btn{
@@ -84,14 +106,14 @@
 
     if (indexPath.row == 0) {
         cell.diyTitleLabel.text = @"登录账号";
-        cell.diyDetailLabel.text = @"18823780982";
+        cell.diyDetailLabel.text = self.phoneNum;
         cell.diyDetailLabel.textColor = [UIColor darkGrayColor];
         cell.diyDetailLabelTrailingConstraint.constant = 15;
         cell.diyIndicatorBtn.hidden = YES;
     }else{
         if (indexPath.row == 1) {
             cell.diyTitleLabel.text = @"昵称";
-            cell.diyDetailLabel.text = @"Stephen";
+            cell.diyDetailLabel.text = self.nickName;
         }else{
             cell.diyTitleLabel.text = @"修改密码";
             cell.diyDetailLabel.text = @"";

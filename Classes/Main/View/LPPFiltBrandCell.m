@@ -12,6 +12,9 @@
 @interface LPPFiltBrandCell()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+
+
 @end
 
 @implementation LPPFiltBrandCell
@@ -20,7 +23,14 @@
     [super awakeFromNib];
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    [self collectionView];
+
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    [self setCollectionView];
+    [self.collectionView reloadData];
 }
 
 #pragma  mark - UICollectionViewDelegate
@@ -29,12 +39,15 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 8;
+    return self.brandListArray.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPBrandCollectionCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPBrandCollectionCell" forIndexPath:indexPath] ;
+    if(self.brandListArray.count != 0 ){
+        [cell.brandLabel setText:self.brandListArray[indexPath.item]];
+    }
     
     return cell;
 }
@@ -49,20 +62,20 @@
     return CGSizeMake(55, 70);
 }
 
-#pragma mark - 懒加载
-- (UICollectionView *)collectionView{
-    if (!_collectionView) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(20, 10, kScreenWidth/6*5-40, 160) collectionViewLayout:layout];
-        _collectionView.delegate = self;
-        _collectionView.dataSource = self;
-        _collectionView.backgroundColor = [UIColor whiteColor];
-        //注册cell
-        [_collectionView registerNib:[UINib nibWithNibName:@"LPPBrandCollectionCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"LPPBrandCollectionCell"];
-        
-        [self addSubview:_collectionView];
+- (void)setCollectionView{
+    if (_collectionView) {
+        [_collectionView removeFromSuperview];
     }
-    return _collectionView;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(20, 10, kScreenWidth/6*5-40, self.brandHeight) collectionViewLayout:layout];
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    _collectionView.backgroundColor = [UIColor whiteColor];
+    _collectionView.scrollEnabled = NO;
+    //注册cell
+    [_collectionView registerNib:[UINib nibWithNibName:@"LPPBrandCollectionCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"LPPBrandCollectionCell"];
+    
+    [self addSubview:_collectionView];
 }
 
 @end

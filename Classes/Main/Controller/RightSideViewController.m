@@ -20,6 +20,12 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) LPPFilterBottomView *bottomView;
+
+@property (nonatomic, strong) NSArray *brandArr;
+@property (nonatomic, strong) NSArray *classArr;
+
+@property (nonatomic, assign) CGFloat brandHeight;
+@property (nonatomic, assign) CGFloat classHeight;
 @end
 
 @implementation RightSideViewController
@@ -30,6 +36,10 @@
     self.preferredContentSize = CGSizeMake(kScreenWidth/6*5, kScreenHeight);
     self.view.backgroundColor=[UIColor whiteColor];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+    
+    //初始化数组
+    self.brandArr = [NSArray array];
+    self.classArr = [NSArray array];
     
     //设置左右BarButtonItem
     UIButton *leftBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 50, 30)];
@@ -45,8 +55,25 @@
     [self bottomView];
     
     [self tableView];
+    
+    [self loadData];
 }
 
+- (void)loadData{
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/filter.htm"] parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        self.brandArr = responseObject[@"brandlist"];
+        self.classArr = responseObject[@"classlist"];
+        self.brandHeight = 80 * self.brandArr.count /4+ 70;
+        self.classHeight = 70 * self.classArr.count /4 + 70;
+        
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
+}
 
 
 - (LPPFilterBottomView *)bottomView{
@@ -60,7 +87,6 @@
 
 // 关闭抽屉
 -(void)closePopView{
-//     [[UIApplication sharedApplication] setStatusBarHidden:false];
     [self.viewDeckController closeSide:YES];
 }
 
@@ -81,18 +107,15 @@
         return cell;
     }else if (indexPath.section == 1){
         LPPFiltBrandCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPFiltBrandCell" forIndexPath:indexPath];
-        
+        cell.brandListArray = self.brandArr;
+        cell.brandHeight = self.brandHeight;
         return cell;
     }else{
         LPPFiltCategoryCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPFiltCategoryCell" forIndexPath:indexPath];
-        
+        cell.classListArray = self.classArr;
+        cell.classHeight = self.classHeight;
         return cell;
     }
-//    else{
-//        LPPFiltServiceDiscountCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPFiltServiceDiscountCell" forIndexPath:indexPath];
-//
-//        return cell;
-//    }
 
 }
 
@@ -101,13 +124,12 @@
     if (indexPath.section == 0) {
         return 80;
     }else if(indexPath.section == 1){
-        return 180;
+//        return 180;
+        return self.brandHeight;
     }else {
-        return 240;
+//        return 240;
+        return self.classHeight;
     }
-//    else{
-//        return 120;
-//    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

@@ -10,4 +10,6 @@
 
 @interface LPPFiltCategoryCell : UITableViewCell
 
+@property (nonatomic, strong) NSArray *classListArray;
+@property (nonatomic, assign) CGFloat classHeight;
 @end
