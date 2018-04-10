@@ -12,6 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *backBtn;
 
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
 
 @end

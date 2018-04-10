@@ -18,4 +18,13 @@
     self.backgroundColor = [UIColor whiteColor];
 }
 
+- (void)setColorListModel:(LPPColorListModel *)colorListModel{
+    _colorListModel = colorListModel;
+    self.colorLabel.text = colorListModel.value;
+    //
+    NSURL *imageUrl = [NSURL URLWithString:colorListModel.getColorOne];
+    [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+    }];
+}
 @end

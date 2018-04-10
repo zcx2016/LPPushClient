@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -75,43 +75,29 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="规格" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Na-ke-yI3">
-                        <rect key="frame" x="15" y="142.5" width="27" height="16"/>
+                        <rect key="frame" x="15" y="142.5" width="30" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="30" id="hRu-uK-GMJ"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cfw-sK-SoA">
-                        <rect key="frame" x="62" y="140" width="50" height="20"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="50" id="EXI-3D-CrR"/>
-                            <constraint firstAttribute="height" constant="20" id="l07-WD-TlC"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="红色" backgroundImage="colorBtn.png">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mdV-jm-caL">
-                        <rect key="frame" x="127" y="140" width="50" height="20"/>
-                        <color key="backgroundColor" red="0.85098039219999999" green="0.85098039219999999" blue="0.86274509799999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="50" id="P9x-Cw-pM1"/>
-                            <constraint firstAttribute="height" constant="20" id="fTW-DF-Jgm"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal" title="黑色">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
-                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Uda-gI-aIC">
+                        <rect key="frame" x="60" y="132" width="264" height="36"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="TDE-Og-6HK" firstAttribute="leading" secondItem="nFX-IP-QaB" secondAttribute="trailing" constant="10" id="12g-SL-7EM"/>
                     <constraint firstItem="TDE-Og-6HK" firstAttribute="centerY" secondItem="nFX-IP-QaB" secondAttribute="centerY" id="4pA-u2-bwT"/>
+                    <constraint firstItem="Uda-gI-aIC" firstAttribute="top" secondItem="7dz-pC-cvx" secondAttribute="bottom" constant="9.5" id="4wa-2l-2XV"/>
                     <constraint firstItem="5Na-ke-yI3" firstAttribute="top" secondItem="7dz-pC-cvx" secondAttribute="bottom" constant="20" id="56Y-vH-hdM"/>
+                    <constraint firstItem="Uda-gI-aIC" firstAttribute="centerY" secondItem="5Na-ke-yI3" secondAttribute="centerY" id="5B2-9n-5hi"/>
                     <constraint firstAttribute="trailing" secondItem="s9e-Xd-lgR" secondAttribute="trailing" id="6NN-nz-QPm"/>
                     <constraint firstItem="nFX-IP-QaB" firstAttribute="leading" secondItem="5QJ-nR-fiV" secondAttribute="leading" id="GhP-UP-h5v"/>
+                    <constraint firstAttribute="trailing" secondItem="Uda-gI-aIC" secondAttribute="trailing" constant="10" id="JX3-u1-8j5"/>
                     <constraint firstItem="s9e-Xd-lgR" firstAttribute="top" secondItem="nFX-IP-QaB" secondAttribute="bottom" constant="5" id="KAv-DJ-8wX"/>
-                    <constraint firstItem="mdV-jm-caL" firstAttribute="leading" secondItem="cfw-sK-SoA" secondAttribute="trailing" constant="15" id="L0Z-jf-1ON"/>
                     <constraint firstItem="5QJ-nR-fiV" firstAttribute="leading" secondItem="zGN-od-7W6" secondAttribute="leading" id="LKH-1i-oLQ"/>
                     <constraint firstItem="f17-T3-95p" firstAttribute="top" secondItem="s9e-Xd-lgR" secondAttribute="bottom" constant="10" id="LNU-k5-uuq"/>
                     <constraint firstItem="5kn-uM-3Vx" firstAttribute="centerY" secondItem="5QJ-nR-fiV" secondAttribute="centerY" id="Oox-YH-qTf"/>
@@ -125,18 +111,16 @@
                     <constraint firstItem="zGN-od-7W6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="gIu-PS-dvw"/>
                     <constraint firstItem="dib-DO-ITb" firstAttribute="top" secondItem="f17-T3-95p" secondAttribute="bottom" constant="5" id="iR4-zl-GPS"/>
                     <constraint firstItem="7dz-pC-cvx" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="oic-n1-X2q"/>
-                    <constraint firstItem="mdV-jm-caL" firstAttribute="centerY" secondItem="cfw-sK-SoA" secondAttribute="centerY" id="okX-CL-mcC"/>
                     <constraint firstItem="5Na-ke-yI3" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="pM6-y8-aEy"/>
-                    <constraint firstItem="cfw-sK-SoA" firstAttribute="leading" secondItem="5Na-ke-yI3" secondAttribute="trailing" constant="20" id="qGS-gV-HeA"/>
-                    <constraint firstItem="cfw-sK-SoA" firstAttribute="centerY" secondItem="5Na-ke-yI3" secondAttribute="centerY" id="tKh-iO-Njo"/>
+                    <constraint firstItem="Uda-gI-aIC" firstAttribute="leading" secondItem="5Na-ke-yI3" secondAttribute="trailing" constant="15" id="sA0-ux-0NR"/>
                     <constraint firstItem="s9e-Xd-lgR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="tjd-8U-dD2"/>
                     <constraint firstItem="f17-T3-95p" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="zkX-KZ-Bnc"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="sizeListView" destination="Uda-gI-aIC" id="KeP-b1-XOK"/>
+            </connections>
             <point key="canvasLocation" x="80" y="-28"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="colorBtn.png" width="76" height="27"/>
-    </resources>
 </document>

@@ -17,13 +17,22 @@
 
 #import "ZCXActionSheetView.h"
 
-@interface LPPCommodityDetailVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface LPPCommodityDetailVC ()<UITableViewDataSource,UITableViewDelegate,LPPCDImgIntroductCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) LPPCommodityDetailBottomView *bottomView;
 
-@property (nonatomic, strong) UIView *barView;
+//数据源数据
+@property (nonatomic, copy) NSString  *currentPrice;
+@property (nonatomic, copy) NSString  *oldPrice;
+@property (nonatomic, copy) NSString  *goodsName;
+@property (nonatomic, strong) NSArray *colorListArr;
+@property (nonatomic, strong) NSArray *sizeListArr;
+@property (nonatomic, copy) NSString  *goodsID;
+@property (nonatomic, copy) NSString  *webStr;
+
+@property (nonatomic, assign) CGFloat webHeight;
 
 @end
 
@@ -34,9 +43,8 @@
    
     self.navigationItem.title = @"商品详情";
     
-    self.barView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, 20)];
-    self.barView.backgroundColor = ZCXColor(225, 61, 38);
-    [self.navigationController.navigationBar addSubview:self.barView];
+    self.colorListArr = [NSArray array];
+    self.sizeListArr = [NSArray array];
     
     [self tableView];
     
@@ -54,39 +62,28 @@
 - (void)loadData{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSString *ID = @"38";
-    NSDictionary *dict = @{@"user_id" : user_id, @"token" : token,@"id" : ID};
+    NSDictionary *dict = @{@"user_id" : user_id, @"token" : token, @"id" : self.deliverID};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"responseObject--%@",responseObject);
+        NSLog(@"商品详情--%@",responseObject);
+        //第一行
+        self.goodsName = responseObject[@"goods_name"];
+        self.currentPrice = responseObject[@"goods_current_price"];
+        self.oldPrice = responseObject[@"goods_price"];
+        //商品id
+        self.goodsID = responseObject[@"id"];
+        //第二行
+        self.colorListArr = responseObject[@"colorList"];
+        //第三行
+        self.sizeListArr = responseObject[@"sizeList"];
+        //图文详情webView数据源
+        self.webStr = responseObject[@"goods_detail"];
+        
+        [self.tableView reloadData];
+
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error--%@",error);
     }];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    UIColor *color= ZCXColor(225, 61, 38);
-    CGFloat offset=scrollView.contentOffset.y;
-    
-    if (offset<0) {
-        
-        self.navigationController.navigationBar.backgroundColor = [color colorWithAlphaComponent:0];
-        self.barView.backgroundColor = [color colorWithAlphaComponent:0];
-    }else {
-        CGFloat alpha=1-((64-offset)/64);
-        self.navigationController.navigationBar.backgroundColor=[color colorWithAlphaComponent:alpha];
-        self.barView.backgroundColor = [color colorWithAlphaComponent:alpha];
-    }
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationBar.translucent = YES;
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)shareBtnClick:(UIButton *)btn{
@@ -100,8 +97,11 @@
 - (LPPCommodityDetailBottomView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[NSBundle mainBundle] loadNibNamed:@"LPPCommodityDetailBottomView" owner:nil options:nil].lastObject;
-        _bottomView.frame = CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50);
         [self.view addSubview:_bottomView];
+        [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.view).with.offset(0);
+            make.height.equalTo(@50);
+        }];
     }
     return _bottomView;
 }
@@ -127,15 +127,17 @@
             return cell;
         }else if (indexPath.row == 1) {
             LPPCDPriceNameCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDPriceNameCell" forIndexPath:indexPath];
-            
+            cell.goodsNameLabel.text = self.goodsName;
+            cell.currentPriceLabel.text = self.currentPrice;
+            cell.oldPriceLabel.text = self.oldPrice;
             return cell;
         }else if(indexPath.row == 2){
             LPPCDCommodityStyleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDCommodityStyleCell" forIndexPath:indexPath];
-            
+            cell.dataArray = self.colorListArr;
             return cell;
         }else{
             LPPCDComparePriceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDComparePriceCell" forIndexPath:indexPath];
-            
+            cell.dataArray = self.sizeListArr;
             return cell;
         }
         
@@ -145,9 +147,16 @@
         return cell;
     }else{
         LPPCDImgIntroductCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDImgIntroductCell" forIndexPath:indexPath];
+        cell.delegate = self;
+        cell.webStr = self.webStr;
         [cell.scrollToTopBtn addTarget:self action:@selector(scrollToTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }
+}
+
+- (void)returnWebViewHeight:(CGFloat)webHeight{
+    self.webHeight = webHeight;
+    [self.tableView reloadData];
 }
 
 #pragma mark - 按钮触发scrollToTop功能
@@ -172,7 +181,14 @@
     }else if (indexPath.section == 1){
         return 180;
     }else{
-        return 640;
+//        if (self.webHeight != 0) {
+//            NSLog(@"self.webHeight--%f",self.webHeight);
+//            return self.webHeight;
+//        }else{
+//            return 640;
+//        }
+        return 300;
+//        return self.webHeight;
     }
 }
 
@@ -197,7 +213,7 @@
 #pragma mark - 懒加载tableView
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64-50) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

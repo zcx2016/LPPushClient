@@ -8,10 +8,12 @@
 
 #import "LPPCDCommodityStyleCell.h"
 #import "LPPCDCardCollectionCell.h"
+#import "LPPColorListModel.h"
 
 @interface LPPCDCommodityStyleCell()<UICollectionViewDataSource,UICollectionViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, strong) NSArray <LPPColorListModel *>*dataSource;
 @end
 
 @implementation LPPCDCommodityStyleCell
@@ -24,19 +26,29 @@
     [self collectionView];
 }
 
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    
+    self.dataSource = [NSArray yy_modelArrayWithClass:[LPPColorListModel class] json:self.dataArray];
+    if (self.dataSource.count != 0) {
+        [self.collectionView reloadData];
+    }
+}
+
 #pragma  mark - UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 3;
+    return self.dataSource.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPCDCardCollectionCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPCDCardCollectionCell" forIndexPath:indexPath] ;
-    
+    LPPColorListModel *model = self.dataSource[indexPath.item];
+    cell.colorListModel = model;
     return cell;
 }
 

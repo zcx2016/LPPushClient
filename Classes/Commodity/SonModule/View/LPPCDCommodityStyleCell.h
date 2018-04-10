@@ -10,4 +10,5 @@
 
 @interface LPPCDCommodityStyleCell : UITableViewCell
 
+@property (nonatomic, strong) NSArray *dataArray;
 @end

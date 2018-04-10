@@ -7,7 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPColorListModel.h"
 
 @interface LPPCDCardCollectionCell : UICollectionViewCell
+
+@property (weak, nonatomic) IBOutlet UILabel *colorLabel;
+
+@property (weak, nonatomic) IBOutlet UIImageView *goodsImgView;
+
+@property (nonatomic, strong) LPPColorListModel *colorListModel;
 
 @end

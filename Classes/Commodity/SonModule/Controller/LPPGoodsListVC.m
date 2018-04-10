@@ -78,6 +78,8 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPCommodityDetailVC *detailVc = [LPPCommodityDetailVC new];
+    LPPGoodsListModel *model = self.dataSource[indexPath.item];
+    detailVc.deliverID = model.goodId;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 

@@ -9,9 +9,9 @@
 #import "LPPUseProtocolVC.h"
 #import <WebKit/WebKit.h>
 
-@interface LPPUseProtocolVC ()<WKUIDelegate,WKNavigationDelegate>
+@interface LPPUseProtocolVC ()<UIWebViewDelegate>
 
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIWebView  *webView;
 
 @property (nonatomic, copy) NSString  *webStr;
 
@@ -29,29 +29,25 @@
 
     [self.backBtn addTarget:self action:@selector(backBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
-    self.contentTextView.layer.cornerRadius = 5;
-    self.contentTextView.layer.masksToBounds = YES;
+    self.contentView.layer.cornerRadius = 5;
+    self.contentView.layer.masksToBounds = YES;
     
     [self loadData];
 }
 
 - (void)setWKWebView{
-    self.webView = [[WKWebView alloc]init];
+    self.webView = [[UIWebView  alloc]init];
+    self.webView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.webView];
     [self.webView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.top.equalTo(self.view);
-        make.bottom.equalTo(self.view);
+        make.left.top.equalTo(self.contentView).with.offset(5);
+        make.right.bottom.equalTo(self.contentView).with.offset(-5);
     }];
-    self.webView.UIDelegate = self;
-    self.webView.navigationDelegate = self;
-//    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]]];
-    
-//    [self.webView loadHTMLString:self.webStr baseURL:nil];
-    [self.webView evaluateJavaScript:self.webStr completionHandler:^(id _Nullable data,NSError * _Nullable error) {
-        
-    }];
+    self.webView.delegate = self;
+    self.webView.dataDetectorTypes = UIDataDetectorTypeAll;
+    [self.webView sizeToFit];
+
+    [self.webView loadHTMLString:self.webStr baseURL:nil];
 }
 
 - (void)loadData{
@@ -59,8 +55,7 @@
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/admin/user_protocol_Ajaxlist.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-responseObject---%@",responseObject);
-        self.webStr = responseObject;
+        self.webStr = responseObject[@"用户协议"];
         [self setWKWebView];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -69,7 +64,6 @@
 }
 
 - (void)backBtnClick:(UIButton *)btn{
-    //    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

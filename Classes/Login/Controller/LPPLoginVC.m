@@ -62,7 +62,7 @@
         [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
         [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
         [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
-        
+        [ZcxUserDefauts synchronize];
         //登录按钮暂时做退出使用
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self dismissViewControllerAnimated:YES completion:nil];

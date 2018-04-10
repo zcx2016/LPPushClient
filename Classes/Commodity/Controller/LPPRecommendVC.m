@@ -71,7 +71,6 @@
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_big_photo.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         self.secondArray = responseObject[@"json_list"];
-        NSLog(@"???---%@",self.secondArray);
 
 //        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadData];
@@ -87,7 +86,7 @@
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/man_women.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         self.secondArray = responseObject[@"json_list"];
-        NSLog(@"!!!---%@",self.secondArray);
+        NSLog(@"推荐FooterView---%@",self.secondArray);
         
         //        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadData];
@@ -95,8 +94,6 @@
         
     }];
 }
-
-
 
 #pragma mark - tableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

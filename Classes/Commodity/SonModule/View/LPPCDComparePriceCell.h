@@ -10,4 +10,8 @@
 
 @interface LPPCDComparePriceCell : UITableViewCell
 
+@property (nonatomic, strong) NSArray *dataArray;
+
+@property (weak, nonatomic) IBOutlet UIView *sizeListView;
+
 @end
