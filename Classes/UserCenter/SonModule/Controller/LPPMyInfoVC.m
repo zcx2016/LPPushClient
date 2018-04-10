@@ -60,6 +60,14 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:invitePersonBtn];
     [invitePersonBtn addTarget:self action:@selector(invitePersonEvent:) forControlEvents:UIControlEventTouchUpInside];
     
+    //调数据
+    [self loadData];
+    //修改昵称的通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nickNameChangedNoti:) name:@"nickNameChanged" object:nil];
+}
+
+- (void)nickNameChangedNoti:(NSNotification *)noti{
+    //修改完昵称，再调一次数据来刷新
     [self loadData];
 }
 
@@ -87,6 +95,7 @@
 - (void)changeNickName{
     LPPChangeNickNameView *popView = [[NSBundle mainBundle] loadNibNamed:@"LPPChangeNickNameView" owner:nil options:nil].firstObject;
     popView.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
+    popView.nickNameTextField.text = self.nickName;
     UIWindow *window = [UIApplication sharedApplication].windows[0];
     [window addSubview:popView];
 }

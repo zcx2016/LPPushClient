@@ -30,7 +30,10 @@
     self.subViewCount = 5;
 
     [self tableView];
+    
 }
+
+
 
 //计算view数量
 - (void)calculateViewCount{

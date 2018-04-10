@@ -29,6 +29,22 @@
     [self.cancelBtn addTarget:self action:@selector(cancelBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.doneBtn addTarget:self action:@selector(doneBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //修改键盘右下角
+    self.nickNameTextField.returnKeyType = UIReturnKeyDone;
+    self.nickNameTextField.delegate = self;
+    //进入后台时取消键盘响应事件
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
+}
+
+//进入后台时取消键盘响应事件
+- (void)applicationDidEnterBackground:(NSNotification *)paramNotification
+{
+    [self.nickNameTextField resignFirstResponder];
+}
+//点击 完成 收回 键盘
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    return [textField resignFirstResponder];
 }
 
 - (void)cancelBtnClick:(UIButton *)btn{
@@ -39,8 +55,22 @@
 
 - (void)doneBtnClick:(UIButton *)btn{
     NSLog(@"确认修改昵称");
-    //保存昵称，再消除弹窗
-    [self dissMissView];
+    
+    [self loadData];
+}
+
+- (void)loadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSDictionary *dict = @{@"user_id" : user_id , @"nickName" : self.nickNameTextField.text};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/index_update_nickAame.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"nickNameChanged" object:nil];
+        [self dissMissView];
+
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 - (void)dissMissView{

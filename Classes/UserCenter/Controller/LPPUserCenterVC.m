@@ -40,8 +40,6 @@
     [self setNav];
     //懒加载tableView
     [self tableView];
-    
-    [self loadData];
 }
 
 - (void)loadData{
@@ -190,6 +188,9 @@
     
     //去掉透明后导航栏下边的黑边
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    
+    //调数据
+    [self loadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPPChangeNickNameView : UIView
+@interface LPPChangeNickNameView : UIView<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *maskBgView;
 

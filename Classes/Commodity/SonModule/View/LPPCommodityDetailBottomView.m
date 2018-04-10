@@ -8,6 +8,7 @@
 
 #import "LPPCommodityDetailBottomView.h"
 #import "LPPShopCarVC.h"
+#import "ZCXActionSheetView.h"
 
 @implementation LPPCommodityDetailBottomView
 
@@ -29,9 +30,12 @@
     [self.buyNowBtn addTarget:self action:@selector(buyNowBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
-//联系买家
+//分享
 - (void)shareEvent:(UITapGestureRecognizer *)gesture{
-    NSLog(@"分享");
+    ZCXActionSheetView *sheet = [[ZCXActionSheetView alloc] initWithActionSheet];
+    //放在最上层
+    UIWindow *window = [UIApplication sharedApplication].windows[0];
+    [window addSubview:sheet];
 }
 
 //购物车
@@ -45,6 +49,21 @@
 //加入购物车
 - (void)joinInShopCarBtnClick:(UIButton *)btn{
     NSLog(@"加入购物车");
+    [self addInShopCar];
+}
+
+- (void)addInShopCar{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token ,@"count":@"1", @"goods_id" :@"000",@"gsp":@"000"};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/add_goods_new_cart.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-responseObject---%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 //立即购买

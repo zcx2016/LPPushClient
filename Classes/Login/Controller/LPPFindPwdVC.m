@@ -28,6 +28,21 @@
     self.sureFindBackBtn.layer.masksToBounds = YES;
     
     [self.backBtn addTarget:self action:@selector(backBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    
+    //发送验证码
+    [self.sendVerifyCodeBtn addTarget:self action:@selector(sendVerifyCodeEvents) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)sendVerifyCodeEvents{
+    NSDictionary *dict = @{@"mobile" : self.phoneNumTextField.text , @"type" : @"3"};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/send_register_code.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-手机发送找回密码。验证码---%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 - (void)backBtnClick:(UIButton *)btn{
