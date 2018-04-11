@@ -14,6 +14,7 @@
 #import "LPPCommodityDetailVC.h"
 
 #import "LPPSecondCellOutModel.h"
+#import "LPPFooterViewModel.h"
 
 @interface LPPRecommendVC ()<UITableViewDelegate,UITableViewDataSource,ATCarouselViewDelegate>
 
@@ -30,6 +31,9 @@
 
 //第2，3
 @property (nonatomic, strong) NSArray *secondArray;
+//footerView
+@property (nonatomic, strong) NSArray <LPPFooterViewModel *>*footVModel;
+@property (nonatomic, assign) CGFloat footVHeight;
 
 @end
 
@@ -72,7 +76,6 @@
         
         self.secondArray = responseObject[@"json_list"];
 
-//        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
         [self.tableView reloadData];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -86,10 +89,11 @@
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/man_women.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         self.secondArray = responseObject[@"json_list"];
-        NSLog(@"推荐FooterView---%@",self.secondArray);
         
-        //        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationNone];
-        [self.tableView reloadData];
+        self.footVModel = [NSArray yy_modelArrayWithClass:[LPPFooterViewModel class] json:responseObject[@"json_list"]];
+
+        self.footVHeight = self.footVModel.count * 180;
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:2] withRowAnimation:UITableViewRowAnimationNone];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -138,7 +142,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     if (section == 2) {
-        return 510+50;
+        return self.footVHeight;
     }
     return 0.01;
 }
@@ -197,6 +201,9 @@
         if (!footView) {
             footView = [[LPPRecommendFooterView alloc] initWithReuseIdentifier:@"LPPRecommendFooterView"];
         }
+        footView.modelArr = self.footVModel ;
+        footView.count = self.footVModel.count;
+        
         return footView;
     }
     return [[UIView alloc] init];
@@ -205,7 +212,7 @@
 #pragma mark - 懒加载tableView
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-104) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-104-30) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;

@@ -49,29 +49,57 @@
 - (void)phoneMesLoginBtnClick:(UIButton *)btn{
     LPPFindPwdVC *findPwdVc = [LPPFindPwdVC new];
     [self presentViewController:findPwdVc animated:YES completion:nil];
-//    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (BOOL)isAllowLogin{
+    //判断手机号码格式
+    NSString *MOBILE = @"^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$";
+    NSPredicate *regextestmobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", MOBILE];
+    if(self.phoneNumTextField.text.length !=11 || [regextestmobile evaluateWithObject:self.phoneNumTextField.text] == NO){
+        [SVProgressHUD showErrorWithStatus:@"手机号码格式不对！"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+        });
+        return NO;
+    }
+    //判TF是否为空
+    if ([self.phoneNumTextField.text isEqualToString:@"" ] || self.phoneNumTextField.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"手机号不能为空！"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+        });
+        return NO;
+    }
+    if ([self.pwdNumTextField.text isEqualToString:@""] || self.pwdNumTextField.text.length == 0) {
+        [SVProgressHUD showErrorWithStatus:@"密码不能为空！"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+        });
+        return NO;
+    }
+    return YES;
 }
 
 - (void)loginBtnClick:(UIButton *)btn{
-    
-    NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"000000" , @"roleJudge" : @"PUSHING"};
-    [ZcxUserDefauts setObject:@"13512345679" forKey:@"telephone"];
-    [ZcxUserDefauts setObject:@"000000" forKey:@"password"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/jopen_shop_user_login.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"登录res----%@",responseObject);
-        [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
-        [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
-        [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
-        [ZcxUserDefauts synchronize];
-        //登录按钮暂时做退出使用
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self dismissViewControllerAnimated:YES completion:nil];
-        });
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"登录error----%@",error);
-    }];
-    
+    if ([self isAllowLogin]) {
+        NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"000000" , @"roleJudge" : @"PUSHING"};
+        [ZcxUserDefauts setObject:@"13512345679" forKey:@"telephone"];
+        [ZcxUserDefauts setObject:@"000000" forKey:@"password"];
+        [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/jopen_shop_user_login.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSLog(@"登录res----%@",responseObject);
+            [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
+            [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
+            [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
+            [ZcxUserDefauts synchronize];
+            //登录按钮暂时做退出使用
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self dismissViewControllerAnimated:YES completion:nil];
+            });
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"登录error----%@",error);
+        }];
+    }
 }
 
 //点击协议

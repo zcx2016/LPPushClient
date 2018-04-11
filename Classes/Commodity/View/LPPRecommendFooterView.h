@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPPFooterViewModel.h"
 
 @interface LPPRecommendFooterView : UITableViewHeaderFooterView
 
-@property (weak, nonatomic) IBOutlet UIImageView *firstImgView;
+@property (nonatomic, assign) BOOL  flag;  // 控制标签
+@property (nonatomic, assign) NSInteger count; // 控件个数
 
-@property (weak, nonatomic) IBOutlet UIImageView *secondImgView;
+@property (nonatomic, strong) UIImageView *imgView;
 
-@property (weak, nonatomic) IBOutlet UIImageView *thirdImgView;
-
+@property (nonatomic, strong) NSArray <LPPFooterViewModel *>*modelArr;
 @end

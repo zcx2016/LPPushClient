@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPPFindPwdVC : UIViewController
+@interface LPPFindPwdVC : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumTextField;
 

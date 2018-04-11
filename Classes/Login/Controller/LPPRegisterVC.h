@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPPRegisterVC : UIViewController
+@interface LPPRegisterVC : UIViewController<UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumTextField;
 
@@ -21,7 +21,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *surePwdTextField;
 
 @property (weak, nonatomic) IBOutlet UITextField *inviteCodeTextField;
-
 
 @property (weak, nonatomic) IBOutlet UIButton *registerBtn;
 
