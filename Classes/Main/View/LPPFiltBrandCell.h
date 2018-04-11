@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LPPFiltBrandCellDelegate <NSObject>
+@optional
+- (void)pickBrand:(NSString *)name;
+@end
+
 @interface LPPFiltBrandCell : UITableViewCell
 
 @property (nonatomic, strong) NSArray *brandListArray;
 @property (nonatomic, assign) CGFloat brandHeight;
+
+@property (nonatomic, weak) id <LPPFiltBrandCellDelegate> delegate;
 @end

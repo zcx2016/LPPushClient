@@ -52,6 +52,14 @@
     return cell;
 }
 
+//点击事件
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *str = self.brandListArray[indexPath.item];
+    if ([self.delegate respondsToSelector:@selector(pickBrand:)]) {
+        [self.delegate pickBrand:str];
+    }
+}
+
 //每一个分组的上左下右间距
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(1, 1, 1, 1);
@@ -59,7 +67,7 @@
 
 //定义每一个cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(55, 70);
+    return CGSizeMake(55, 40);
 }
 
 - (void)setCollectionView{

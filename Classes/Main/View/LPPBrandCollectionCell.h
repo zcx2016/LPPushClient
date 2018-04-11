@@ -10,9 +10,6 @@
 
 @interface LPPBrandCollectionCell : UICollectionViewCell
 
-
-@property (weak, nonatomic) IBOutlet UIImageView *brandImgView;
-
 @property (weak, nonatomic) IBOutlet UILabel *brandLabel;
 
 @end

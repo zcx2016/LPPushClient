@@ -13,6 +13,13 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
    
+    self.contentView.backgroundColor = ZCXColor(230, 230, 230);
 }
+
+- (void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+        self.contentView.backgroundColor = selected ? [UIColor colorWithPatternImage:[UIImage imageNamed:@"colorBtn"]] : ZCXColor(230, 230, 230);
+}
+
 
 @end

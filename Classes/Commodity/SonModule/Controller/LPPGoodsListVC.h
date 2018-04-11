@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSString  *tagID;
 
+@property (nonatomic, strong) NSArray *drawArray;
+
 @end

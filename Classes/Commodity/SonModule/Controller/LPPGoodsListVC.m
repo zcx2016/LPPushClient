@@ -26,7 +26,17 @@
     self.navigationItem.title = @"商品列表";
     
     [self collectionView];
-    [self loadData];
+    
+    if (self.drawArray.count != 0) {
+        [self loadDrawArr];
+    }else{
+        [self loadData];
+    }
+}
+
+- (void)loadDrawArr{
+    self.dataSource = [NSArray yy_modelArrayWithClass:[LPPGoodsListModel class] json:self.drawArray];
+    [self.collectionView reloadData];
 }
 
 - (void)loadData{
@@ -40,7 +50,7 @@
         for (NSDictionary *dict in arr1) {
             arr2 = dict[@"secondList"];
         }
-        NSLog(@"arr2---%@",arr2);
+
         self.dataSource = [NSArray yy_modelArrayWithClass:[LPPGoodsListModel class] json:arr2];
         [self.collectionView reloadData];
         
@@ -87,7 +97,7 @@
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) collectionViewLayout:layout];
+        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-64) collectionViewLayout:layout];
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.backgroundColor = [UIColor whiteColor];

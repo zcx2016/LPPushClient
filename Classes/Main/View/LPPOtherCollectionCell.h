@@ -10,7 +10,5 @@
 
 @interface LPPOtherCollectionCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *typeBtn;
-
-
+@property (weak, nonatomic) IBOutlet UILabel *typeLabel;
 @end

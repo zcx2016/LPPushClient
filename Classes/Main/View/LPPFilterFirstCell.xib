@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,33 +25,35 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzd-Gp-OAe">
-                        <rect key="frame" x="61" y="23" width="15" height="10"/>
+                        <rect key="frame" x="61" y="18" width="20" height="12"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="15" id="MaW-tK-Mqz"/>
-                            <constraint firstAttribute="height" constant="10" id="TCB-Ta-s4f"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="12" id="X0m-di-x9h"/>
+                            <constraint firstAttribute="width" constant="20" id="MaW-tK-Mqz"/>
+                            <constraint firstAttribute="height" constant="12" id="TCB-Ta-s4f"/>
                         </constraints>
                         <state key="normal" image="upArrow.png"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtM-Wl-PSr">
-                        <rect key="frame" x="61" y="34" width="15" height="10"/>
+                        <rect key="frame" x="63.5" y="35" width="15" height="12"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="15" id="LCl-Xw-UZB"/>
-                            <constraint firstAttribute="height" constant="10" id="Wmf-dg-g2N"/>
-                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="12" id="sbx-0G-DY1"/>
+                            <constraint firstAttribute="height" constant="12" id="Wmf-dg-g2N"/>
                         </constraints>
                         <state key="normal" image="downArrow.png"/>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="yzd-Gp-OAe" firstAttribute="top" secondItem="WIW-0p-evf" secondAttribute="top" id="6c1-dt-CUX"/>
+                    <constraint firstItem="yzd-Gp-OAe" firstAttribute="top" secondItem="WIW-0p-evf" secondAttribute="top" constant="-5" id="6c1-dt-CUX"/>
                     <constraint firstItem="yzd-Gp-OAe" firstAttribute="leading" secondItem="WIW-0p-evf" secondAttribute="trailing" constant="10" id="75V-WB-Eha"/>
-                    <constraint firstItem="gtM-Wl-PSr" firstAttribute="top" secondItem="yzd-Gp-OAe" secondAttribute="bottom" constant="1" id="JyM-Sf-2dF"/>
+                    <constraint firstItem="gtM-Wl-PSr" firstAttribute="top" secondItem="yzd-Gp-OAe" secondAttribute="bottom" constant="5" id="JyM-Sf-2dF"/>
                     <constraint firstItem="gtM-Wl-PSr" firstAttribute="centerX" secondItem="yzd-Gp-OAe" secondAttribute="centerX" id="gh9-bA-5Ok"/>
                     <constraint firstItem="WIW-0p-evf" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="lDj-4Y-SAf"/>
                     <constraint firstItem="WIW-0p-evf" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="20" id="xj1-l0-4S0"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="downBtn" destination="gtM-Wl-PSr" id="RNQ-zb-ZLK"/>
+                <outlet property="upBtn" destination="yzd-Gp-OAe" id="7TS-2Y-nUx"/>
+            </connections>
             <point key="canvasLocation" x="3.5" y="33.5"/>
         </tableViewCell>
     </objects>

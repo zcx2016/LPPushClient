@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LPPFilterFirstCellDelegate<NSObject>
+@optional
+- (void)pickUpOrDown:(NSInteger)num;
+
+@end
+
 @interface LPPFilterFirstCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIButton *upBtn;
+@property (weak, nonatomic) IBOutlet UIButton *downBtn;
+
+@property (nonatomic, weak) id <LPPFilterFirstCellDelegate> delegate;
 
 @end

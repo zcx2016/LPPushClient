@@ -16,4 +16,10 @@
     
 }
 
+- (void)setSelected:(BOOL)selected{
+    [super setSelected:selected];
+    
+    self.contentView.backgroundColor = selected ? [UIColor colorWithPatternImage:[UIImage imageNamed:@"colorBtn"]] : [UIColor clearColor];
+}
+
 @end

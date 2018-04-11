@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LPPFiltCategoryCellDelegate <NSObject>
+@optional
+- (void)pickCategory:(NSString *)name;
+@end
+
 @interface LPPFiltCategoryCell : UITableViewCell
 
 @property (nonatomic, strong) NSArray *classListArray;
 @property (nonatomic, assign) CGFloat classHeight;
+
+@property (nonatomic, weak) id<LPPFiltCategoryCellDelegate> delegate;
 @end

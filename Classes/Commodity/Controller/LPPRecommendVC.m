@@ -16,6 +16,8 @@
 #import "LPPSecondCellOutModel.h"
 #import "LPPFooterViewModel.h"
 
+#import "LPPGoodsListVC.h"
+
 @interface LPPRecommendVC ()<UITableViewDelegate,UITableViewDataSource,ATCarouselViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -50,6 +52,23 @@
     [self loadLunBoData];
     [self loadSecondCellData];
     [self loadFooterViewData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pushToGoodsListVcNoti:) name:@"pushToGoodsListVc" object:nil];
+}
+
+- (void)pushToGoodsListVcNoti:(NSNotification *)noti{
+    NSArray *arr = noti.userInfo[@"arr"];
+    LPPGoodsListVC *vc = [LPPGoodsListVC new];
+    vc.drawArray = arr;
+    NSLog(@"self.navigationController---%@",self.navigationController);
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //            LPPGoodsListVC *vc = [LPPGoodsListVC new];
+    //            vc.drawArray = responseObject[@"json_list"];
+    //            NSLog(@"self.navigationController---%@",self.navigationController);
+    //            [self.navigationController pushViewController:vc animated:YES];
+    //        });
 }
 
 - (void)loadLunBoData{

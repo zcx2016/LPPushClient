@@ -60,7 +60,7 @@
     [self loadData];
     
     //商品规格详情
-    [self loadClassesData];
+//    [self loadClassesData];
 }
 
 - (void)loadData{

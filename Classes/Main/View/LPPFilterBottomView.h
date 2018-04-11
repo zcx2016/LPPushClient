@@ -10,4 +10,8 @@
 
 @interface LPPFilterBottomView : UIView
 
+@property (weak, nonatomic) IBOutlet UIButton *resetBtn;
+
+@property (weak, nonatomic) IBOutlet UIButton *doneBtn;
+
 @end

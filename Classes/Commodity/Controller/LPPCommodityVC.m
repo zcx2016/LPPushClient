@@ -36,6 +36,7 @@ static int const labelWith = 70;
 
 @property (nonatomic, strong) NSArray *bannerDataSource;
 
+
 @end
 
 @implementation LPPCommodityVC
@@ -54,21 +55,22 @@ static int const labelWith = 70;
     return _titleArray;
 }
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //0.设置页面scrollView;
+//    0.设置页面scrollView;
     [self setScrollViewTopAndBottom];
-    
     //1.添加所有子控制器
     [self setAllChildController];
+
 
     //2.添加所有子控制器对应标题
     [self setupTitleLabel];
 
     //3.初始化标题ScrollView
     [self setupScrollView];
-    
+
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     //4.导航栏 搜索框
@@ -84,7 +86,7 @@ static int const labelWith = 70;
     [self.navigationController.navigationBar setBackgroundImage:
      [UIImage imageNamed:@"userCenter_bg"] forBarMetrics:UIBarMetricsDefault];
     
-//    [self loadBannerData];
+    [self loadBannerData];
 }
 
 - (void)loadBannerData{
@@ -94,6 +96,7 @@ static int const labelWith = 70;
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/index_banner.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSLog(@"banner--responseObject--%@",responseObject);
         self.bannerDataSource = responseObject[@"json_list"];
+
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -205,12 +208,6 @@ static int const labelWith = 70;
         }
         //添加label
         [self.titleScrollView addSubview:label];
-        
-//        //添加 下划线
-//        self.lineBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        self.lineBtn.frame = CGRectMake( 22, 38, 44, 1);
-//        [self.lineBtn setBackgroundColor:[UIColor whiteColor]];
-//        [self.titleScrollView addSubview:self.lineBtn];
     }
 }
 
@@ -341,6 +338,7 @@ static int const labelWith = 70;
 
 //添加所有子控制器
 -(void)setAllChildController{
+    NSLog(@"-标题--%@", self.bannerDataSource);
     //推荐
     LPPRecommendVC *oneVC = [[LPPRecommendVC alloc]init];
 //    oneVC.title = modelArr[0][@"name"];

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,14 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="79" height="68"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="gucci" translatesAutoresizingMaskIntoConstraints="NO" id="ivA-wX-Cnd">
-                        <rect key="frame" x="5" y="5" width="69" height="30"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="30" id="SDt-9r-LR9"/>
-                        </constraints>
-                    </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="古驰" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2G-uH-G8X">
-                        <rect key="frame" x="25.5" y="45" width="27" height="16"/>
+                        <rect key="frame" x="25.5" y="26" width="27" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
@@ -33,22 +27,14 @@
                 </subviews>
             </view>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="ivA-wX-Cnd" secondAttribute="trailing" constant="5" id="As5-wj-e5o"/>
-                <constraint firstItem="ivA-wX-Cnd" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="D1h-h4-0uc"/>
-                <constraint firstItem="ivA-wX-Cnd" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="WNH-Sg-iUj"/>
+                <constraint firstItem="j2G-uH-G8X" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="7W7-Md-4uX"/>
                 <constraint firstItem="j2G-uH-G8X" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="dX9-hN-0Ha"/>
-                <constraint firstItem="ivA-wX-Cnd" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="uoM-4G-QE8"/>
-                <constraint firstItem="j2G-uH-G8X" firstAttribute="top" secondItem="ivA-wX-Cnd" secondAttribute="bottom" constant="10" id="xkd-Sq-RE4"/>
             </constraints>
             <size key="customSize" width="79" height="68"/>
             <connections>
-                <outlet property="brandImgView" destination="ivA-wX-Cnd" id="Asu-Aq-5Cx"/>
                 <outlet property="brandLabel" destination="j2G-uH-G8X" id="bem-HO-jev"/>
             </connections>
             <point key="canvasLocation" x="-102.5" y="-29"/>
         </collectionViewCell>
     </objects>
-    <resources>
-        <image name="gucci" width="144" height="46"/>
-    </resources>
 </document>

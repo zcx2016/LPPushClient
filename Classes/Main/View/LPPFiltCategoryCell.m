@@ -22,7 +22,6 @@
     [super awakeFromNib];
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
 }
 
 - (void)layoutSubviews{
@@ -45,9 +44,17 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LPPOtherCollectionCell*cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"LPPOtherCollectionCell" forIndexPath:indexPath] ;
     if(self.classListArray.count != 0 ){
-        [cell.typeBtn setTitle:self.classListArray[indexPath.item] forState:UIControlStateNormal];
+        [cell.typeLabel setText:self.classListArray[indexPath.item]];
     }
     return cell;
+}
+
+//点击事件
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSString *str = self.classListArray[indexPath.item];
+    if ([self.delegate respondsToSelector:@selector(pickCategory:)]) {
+        [self.delegate pickCategory:str];
+    }
 }
 
 //每一个分组的上左下右间距

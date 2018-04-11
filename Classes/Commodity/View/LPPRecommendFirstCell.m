@@ -97,8 +97,6 @@
         _collectionView.backgroundColor = [UIColor clearColor];
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
-        //注册headView
-//        [_collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"HeaderView"];
         //注册cell
         [_collectionView registerNib:[UINib nibWithNibName:@"LPPFirstCollectionCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"LPPFirstCollectionCell"];
         
