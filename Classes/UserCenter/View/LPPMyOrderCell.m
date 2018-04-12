@@ -9,6 +9,8 @@
 #import "LPPMyOrderCell.h"
 #import "LPPMyOrderView.h"
 
+#import "LPPMyOrderSubCell.h"
+
 @implementation LPPMyOrderCell
 
 - (void)awakeFromNib {
@@ -23,21 +25,21 @@
     self.outView.layer.masksToBounds = YES;
 }
 
-@synthesize count = _count;
-- (void)setCount:(NSInteger )count{
-    if (count> 0 && _flag == NO) {
-        _flag = YES;
-        for (int i = 0; i < count; i++) {
-            LPPMyOrderView *orderView = [[NSBundle mainBundle] loadNibNamed:@"LPPMyOrderView" owner:nil options:nil].lastObject;
-            orderView.lineView.hidden = NO;
-            orderView.frame = CGRectMake(0, 25 + 150 *i, kScreenWidth- 50, 0);
-            if (i == count - 1) {
-                orderView.lineView.hidden = YES;
-            }
-            [self.outView addSubview:orderView];
-        }
-
-    }
-}
+//@synthesize count = _count;
+//- (void)setCount:(NSInteger )count{
+//    if (count> 0 && _flag == NO) {
+//        _flag = YES;
+//        for (int i = 0; i < count; i++) {
+//            LPPMyOrderView *orderView = [[NSBundle mainBundle] loadNibNamed:@"LPPMyOrderView" owner:nil options:nil].lastObject;
+//            orderView.lineView.hidden = NO;
+//            orderView.frame = CGRectMake(0, 25 + 150 *i, kScreenWidth- 50, 0);
+//            if (i == count - 1) {
+//                orderView.lineView.hidden = YES;
+//            }
+//            [self.outView addSubview:orderView];
+//        }
+//
+//    }
+//}
 
 @end

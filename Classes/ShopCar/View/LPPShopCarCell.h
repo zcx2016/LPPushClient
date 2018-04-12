@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "LPPShopCarModel.h"
 
+@protocol LPPShopCarCellDelegate<NSObject>
+@optional
+- (void)deleteOneCell:(UIButton *)btn;
+
+- (void)adjustGoodsNum:(UIButton *)btn Count:(NSInteger)count;
+
+- (void)selectGoods:(UIButton *)btn Type:(NSInteger)type;
+
+@end
+
 @interface LPPShopCarCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UIView *outView;
@@ -32,5 +42,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *changeCountLabel;
 
 @property (nonatomic, strong) LPPShopCarModel *model;
+
+@property (nonatomic, weak) id <LPPShopCarCellDelegate> delegate;
 
 @end

@@ -21,6 +21,14 @@
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self collectionView];
     
+
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    if (self.imgArray.count!=0) {
+        [self.collectionView reloadData];
+    }
 }
 
 #pragma  mark - UICollectionViewDelegate
@@ -36,7 +44,14 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"imgCell" forIndexPath:indexPath];
     //图片
-    UIImageView *imgView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bag"]];
+    UIImageView *imgView = [UIImageView new];
+    if (self.imgArray.count != 0) {
+        NSURL *url = [NSURL URLWithString:self.imgArray[indexPath.item]];
+        [imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+            
+        }];
+    }
+    
     imgView.frame =CGRectMake((kScreenWidth - 240)/2, 10, 200, 200);
     [cell addSubview:imgView];
     

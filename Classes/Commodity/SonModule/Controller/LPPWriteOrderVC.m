@@ -20,18 +20,18 @@
 
 @property (nonatomic, strong) LPPWriteOrderBottomView *writeOrderBottomView;
 
-@property (nonatomic, assign) NSInteger subViewCount;
-
 @property (nonatomic, strong) UIView *barView;
 
 @property (nonatomic, strong) NSDictionary *addressDataSource;
+
+@property (nonatomic, strong) NSArray *orderArr;
 
 @end
 
 @implementation LPPWriteOrderVC
 
 - (void)viewWillAppear:(BOOL)animated{
-    self.navigationController.navigationBar.translucent = YES;
+//    self.navigationController.navigationBar.translucent = YES;
     //设置导航栏背景图片为一个空的image，这样就透明了
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     
@@ -40,7 +40,7 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.translucent = NO;
     //    如果不想让其他页面的导航栏变为透明 需要重置
     [self.navigationController.navigationBar setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:nil];
@@ -50,19 +50,20 @@
     [super viewDidLoad];
  
     self.navigationItem.title = @"填写订单";
+    self.orderArr = [NSArray array];
     
     self.barView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, 20)];
     self.barView.backgroundColor = ZCXColor(225, 61, 38);
     [self.navigationController.navigationBar addSubview:self.barView];
-    
-    self.subViewCount = 2;
-    [self calculateViewCount];
     
     [self tableView];
     [self writeOrderBottomView];
     
     //加载地址栏数据
     [self loadAddressData];
+    
+    //加载下面数据
+    [self loadOrderData];
 }
 
 - (void)loadAddressData{
@@ -72,7 +73,7 @@
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/address_new_default.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"---responseObject -- %@",responseObject);
+        NSLog(@"---地址 -- %@",responseObject);
         self.addressDataSource = responseObject;
         [self.tableView reloadData];
         
@@ -81,13 +82,24 @@
     }];
 }
 
-//计算view数量
-- (void)calculateViewCount{
-    
+- (void)loadOrderData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"order_type" : @"ios" , @"coupon_id" : @"" ,@"cart_ids" : self.cart_ids};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_new_cart3.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-支付订单---%@",responseObject);
+        self.orderArr = responseObject[@"goods_map_list"];
+        [self.tableView reloadData];
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    NSLog(@"offset---scroll:%f",self.tableView.contentOffset.y);
+
     UIColor *color= ZCXColor(225, 61, 38);
     CGFloat offset=scrollView.contentOffset.y;
 
@@ -105,9 +117,12 @@
 - (LPPWriteOrderBottomView *)writeOrderBottomView{
     if (!_writeOrderBottomView) {
         _writeOrderBottomView = [[NSBundle mainBundle] loadNibNamed:@"LPPWriteOrderBottomView" owner:nil options:nil].lastObject;
-        _writeOrderBottomView.frame = CGRectMake(0, kScreenHeight - 50, kScreenWidth, 50);
         [_writeOrderBottomView.payBtn addTarget:self action:@selector(payBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_writeOrderBottomView];
+        [_writeOrderBottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.bottom.equalTo(self.view).with.offset(0);
+            make.height.equalTo(@50);
+        }];
     }
     return _writeOrderBottomView;
 }
@@ -115,7 +130,6 @@
 - (void)payBtnClick:(UIButton *)btn{
     
     LPPSuccessPayVC *vc = [LPPSuccessPayVC new];
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:vc];
     [self presentViewController:vc animated:YES completion:nil];
 }
 
@@ -125,10 +139,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (section == 0) {
-        return 1;
-    }
-    return 2;
+    return 1;
 }
 
 #pragma mark - tableView DataSource
@@ -142,7 +153,10 @@
         return cell;
     }else{
         LPPWriteOrderCommodityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPWriteOrderCommodityCell" forIndexPath:indexPath];
-        cell.count = self.subViewCount;
+        NSString *str = [NSString stringWithFormat:@"%ld" ,self.orderArr.count];
+        cell.dataSource = self.orderArr;
+        cell.AllCountLabel.text = [str stringByAppendingString:@"件商品"];
+        cell.count = self.orderArr.count;
         return cell;
     }
 }
@@ -152,7 +166,7 @@
     if (indexPath.section == 0) {
         return 90;
     }else{
-        CGFloat h = self.subViewCount * 150+20;
+        CGFloat h = self.orderArr.count * 150+30;
         return h;
     }
 }

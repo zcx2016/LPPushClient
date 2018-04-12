@@ -10,4 +10,6 @@
 
 @interface LPPWriteOrderVC : UIViewController
 
+@property (nonatomic, copy) NSString  *cart_ids;
+
 @end

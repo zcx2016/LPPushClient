@@ -1,19 +1,19 @@
 //
-//  LPPWriteOrderCommoditySubView.m
+//  LPPWriteOrderSubCell.m
 //  LPPushClient
 //
-//  Created by 张晨曦 on 2018/3/21.
+//  Created by 张晨曦 on 2018/4/12.
 //  Copyright © 2018年 张晨曦. All rights reserved.
 //
 
-#import "LPPWriteOrderCommoditySubView.h"
+#import "LPPWriteOrderSubCell.h"
 
-@implementation LPPWriteOrderCommoditySubView
+@implementation LPPWriteOrderSubCell
 
-- (void)awakeFromNib{
+- (void)awakeFromNib {
     [super awakeFromNib];
-    
-    self.frame = CGRectMake(0, 20, kScreenWidth-30, 140);
+
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
 }
 
 - (void)setModel:(LPPWriteOrderModel *)model{
@@ -31,5 +31,4 @@
         
     }];
 }
-
 @end

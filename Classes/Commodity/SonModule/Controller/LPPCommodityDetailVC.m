@@ -34,6 +34,11 @@
 
 @property (nonatomic, assign) CGFloat webHeight;
 
+@property (nonatomic, copy) NSString  *colorID;
+@property (nonatomic, copy) NSString  *sizeID;
+
+@property (nonatomic, strong) NSArray *lunboImgArr;
+
 @end
 
 @implementation LPPCommodityDetailVC
@@ -45,6 +50,7 @@
     
     self.colorListArr = [NSArray array];
     self.sizeListArr = [NSArray array];
+    self.lunboImgArr = [NSArray array];
     
     [self tableView];
     
@@ -58,9 +64,6 @@
     
     //商品详情
     [self loadData];
-    
-    //商品规格详情
-//    [self loadClassesData];
 }
 
 - (void)loadData{
@@ -69,7 +72,6 @@
     NSDictionary *dict = @{@"user_id" : user_id, @"token" : token, @"id" : self.deliverID};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"商品详情--%@",responseObject);
         //第一行
         self.goodsName = responseObject[@"goods_name"];
         self.currentPrice = responseObject[@"goods_current_price"];
@@ -83,22 +85,31 @@
         //图文详情webView数据源
         self.webStr = responseObject[@"goods_detail"];
         
-        [self.tableView reloadData];
+        //同时要记住第一个商品和规格
+        self.colorID = self.colorListArr[0][@"colorid"];
+        self.sizeID = self.sizeListArr[0][@"id"];
+
+        //商品规格详情
+        [self loadClassesData];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error--%@",error);
     }];
 }
 
+#pragma mark - 商品规格详情
 - (void)loadClassesData{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSArray *gspArr = @[];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"id" : self.goodsID , @"gsp" :gspArr};
+    NSString *gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"id" : self.goodsID , @"gsp" :gsp , @"colorId": self.colorID};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/load_goods_gsp.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-responseObject---%@",responseObject);
+        NSLog(@"-规格---%@",responseObject);
+        self.lunboImgArr = responseObject[@"allColor"];
+        
+        [self.tableView reloadData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"---error -- %@",error);
@@ -121,8 +132,32 @@
             make.left.right.bottom.equalTo(self.view).with.offset(0);
             make.height.equalTo(@50);
         }];
+        
+        //加入购物车
+        [_bottomView.joinInShopCarBtn addTarget:self action:@selector(joinInShopCarBtnClick) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bottomView;
+}
+
+#pragma mark - 加入购物车
+- (void)joinInShopCarBtnClick{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSString *gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token ,@"count":@"1", @"goods_id" :self.goodsID , @"gsp":gsp};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/add_goods_new_cart.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject[@"code"] isEqualToNumber:@100]) {
+            [SVProgressHUD showSuccessWithStatus:@"加入购物车成功！"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+            });
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
 }
 
 #pragma mark - tableView Delegate
@@ -142,7 +177,7 @@
     if (indexPath.section == 0) {
         if (indexPath.row== 0) {
             LPPCDTopImgViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDTopImgViewCell" forIndexPath:indexPath];
-            
+            cell.imgArray = self.lunboImgArr;
             return cell;
         }else if (indexPath.row == 1) {
             LPPCDPriceNameCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDPriceNameCell" forIndexPath:indexPath];

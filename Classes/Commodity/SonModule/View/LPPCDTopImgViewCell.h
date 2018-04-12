@@ -10,4 +10,6 @@
 
 @interface LPPCDTopImgViewCell : UITableViewCell
 
+@property (nonatomic, strong) NSArray *imgArray;
+
 @end

@@ -50,8 +50,6 @@
 
 //滑动弹出
 - (void)show {
-    //        _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, kScreenHeight - 500, kScreenWidth, 300) collectionViewLayout:layout];
-//    _tableView.frame = CGRectMake(Space_Line, Screen_Height, Screen_Width - (Space_Line * 2), _tableView.rowHeight * (_cellArray.count + 1) + _headView.bounds.size.height + (Space_Line * 2));
     
     _tableView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, 485);
     

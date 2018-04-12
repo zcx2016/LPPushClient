@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *AllCountLabel;
 
+@property (nonatomic, strong) NSArray *dataSource;
 
 @property (nonatomic, assign) BOOL  flag;  // 控制标签
 @property (nonatomic, assign) NSInteger count; // 控件个数

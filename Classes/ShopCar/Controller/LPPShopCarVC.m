@@ -12,7 +12,7 @@
 #import "LPPWriteOrderVC.h"
 #import "LPPShopCarModel.h"
 
-@interface LPPShopCarVC ()<UITableViewDelegate,UITableViewDataSource>
+@interface LPPShopCarVC ()<UITableViewDelegate,UITableViewDataSource,LPPShopCarCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -24,6 +24,13 @@
 
 @property (nonatomic, strong) NSArray <LPPShopCarModel *>*dataSource;
 
+@property (nonatomic, copy) NSString  *adjustID;
+@property (nonatomic, strong) NSMutableArray *adjustArr;
+@property (nonatomic, strong) NSMutableDictionary *adjustDict;
+@property (nonatomic, strong) NSMutableArray *tempArr;
+
+@property (nonatomic, strong) NSMutableArray *payIdArr;
+
 @end
 
 @implementation LPPShopCarVC
@@ -34,6 +41,12 @@
     self.navigationItem.title = @"购物袋";
     self.view.backgroundColor = [UIColor whiteColor];
     [self tableView];
+    
+    //初始化
+    self.adjustArr = [NSMutableArray array];
+    self.adjustDict = [NSMutableDictionary dictionary];
+    self.tempArr = [NSMutableArray array];
+    self.payIdArr = [NSMutableArray array];
     
     self.barView = [[UIView alloc] initWithFrame:CGRectMake(0, -20, self.view.frame.size.width, 20)];
     self.barView.backgroundColor = ZCXColor(225, 61, 38);
@@ -58,7 +71,7 @@
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_cart1.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-购物车---%@",responseObject);
+        NSLog(@"-购物车列表---%@",responseObject);
         NSArray *dataArray = responseObject[@"cart_list"];
         self.dataSource = [NSArray yy_modelArrayWithClass:[LPPShopCarModel class] json:dataArray];
         [self.tableView reloadData];
@@ -84,10 +97,34 @@
     }
 }
 
+- (void)adjustGoodsNum:(UIButton *)btn Count:(NSInteger)count{
+    LPPShopCarCell *cell = (LPPShopCarCell *)[[btn superview] superview];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    LPPShopCarModel *model = [self.dataSource objectAtIndex:indexPath.section];
+    
+    NSString *rowStr = [NSString stringWithFormat:@"%ld",indexPath.row];
+//    self.adjustID = model.goods_id;
+    if (![self.tempArr containsObject:rowStr]) {
+        [self.tempArr addObject:rowStr];
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setObject:model.cart_id forKey:@"cart_id"];
+        NSString *countStr = [NSString stringWithFormat:@"%ld",count];
+        [dict setObject:countStr forKey:@"goods_count"];
+    }
+    
+    
+//    [self.adjustDict setObject:model.cart_id forKey:@"cart_id"];
+//    [self.adjustDict setObject:countStr forKey:@"goods_count"];
+    
+}
+
 - (void)editBtnClick:(UIButton *)btn{
 
     if (!btn.selected) {
         [btn setTitle:@"返回" forState:UIControlStateNormal];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"startEditCount" object:nil];
+        //显示数量加减框
         [self.shopCarBottomView.goToBuyBtn setTitle:@"删除" forState:UIControlStateNormal];
         //先删除之前的点击响应事件
         [self.shopCarBottomView.goToBuyBtn removeTarget:self action:@selector(goToBuyEvents:) forControlEvents:UIControlEventTouchUpInside];
@@ -95,22 +132,74 @@
         [self.shopCarBottomView.goToBuyBtn addTarget:self action:@selector(deleteEvents:) forControlEvents:UIControlEventTouchUpInside];
         btn.selected = !btn.selected;
     }else{
+        //隐藏数量加减框
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stopEditCount" object:nil];
+        
         [btn setTitle:@"编辑" forState:UIControlStateNormal];
         [self.shopCarBottomView.goToBuyBtn setTitle:@"去结算" forState:UIControlStateNormal];
         [self.shopCarBottomView.goToBuyBtn addTarget:self action:@selector(goToBuyEvents:) forControlEvents:UIControlEventTouchUpInside];
         btn.selected = !btn.selected;
+        
+        //更新界面，
+//        [self adjustGoodsCount];
     }
 }
+
+- (void)adjustGoodsCount{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSString *cart_list;
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"cart_list" : cart_list};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/cart_count_adjust.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"-调整购物车商品数量---%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
+}
+
 
 - (void)deleteEvents:(UIButton *)btn{
     NSLog(@"删除商品");
 }
 
+#pragma mark - 去支付
 - (void)goToBuyEvents:(UIButton *)btn{
-    LPPWriteOrderVC *writeOrderVc = [LPPWriteOrderVC new];
-    [self.navigationController pushViewController:writeOrderVc animated:YES];
+    if (self.payIdArr.count !=0) {
+        LPPWriteOrderVC *writeOrderVc = [LPPWriteOrderVC new];
+        NSString *cartIds=@"";
+        for (NSString *str in self.payIdArr) {
+            cartIds = [[cartIds stringByAppendingString:str] stringByAppendingString:@","];
+        }
+        writeOrderVc.cart_ids = [cartIds substringToIndex:[cartIds length] - 1];
+        [self.navigationController pushViewController:writeOrderVc animated:YES];
+    }else{
+        [SVProgressHUD showInfoWithStatus:@"您还未选购商品哦！"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+        });
+    }
 }
 
+- (void)selectGoods:(UIButton *)btn Type:(NSInteger)type{
+    LPPShopCarCell *cell = (LPPShopCarCell *)[[[btn superview] superview] superview];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    LPPShopCarModel *model = [self.dataSource objectAtIndex:indexPath.section];
+    if (type == 1) {  //添加
+        if (![self.payIdArr containsObject:model.cart_id]) {
+            [self.payIdArr addObject:model.cart_id];
+        }
+    }else{ //删除
+        if ([self.payIdArr containsObject:model.cart_id]) {
+            [self.payIdArr removeObject:model.cart_id];
+        }
+    }
+    NSLog(@"payIdArr----%@",self.payIdArr);
+}
+
+#pragma mark - 懒加载底部view
 - (LPPShopCarBottomView *)shopCarBottomView{
     if (!_shopCarBottomView) {
         _shopCarBottomView = [[NSBundle mainBundle] loadNibNamed:@"LPPShopCarBottomView" owner:nil options:nil].lastObject;
@@ -137,6 +226,7 @@
 #pragma mark - tableView DataSource
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     LPPShopCarCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPShopCarCell" forIndexPath:indexPath];
+    cell.delegate = self;
     //赋值引用
     self.weak_shopCarCell = cell;
     LPPShopCarModel *model = self.dataSource[indexPath.section];
@@ -183,11 +273,36 @@
 
 //删除所做的动作
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+
     // 从数据源中删除
 //    [_data removeObjectAtIndex:indexPath.row];
     // 从列表中删除---不能直接写，要配合数据源刷新
 //    [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 }
+
+- (void)deleteOneCell:(UIButton *)btn{
+    LPPShopCarCell *cell = (LPPShopCarCell *)[[btn superview] superview];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    LPPShopCarModel *model = [self.dataSource objectAtIndex:indexPath.section];
+    NSString *cart_ids = model.cart_id;
+    
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token ,@"cart_ids" : cart_ids};
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/remove_goods_cart.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        if ([responseObject[@"code"] isEqualToString:@"100"]) {
+            [SVProgressHUD showSuccessWithStatus:@"删除成功！"];
+            //重新加载界面
+            [self loadData];
+        }
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"---error -- %@",error);
+    }];
+}
+
 
 #pragma mark - 懒加载tableView
 - (UITableView *)tableView{

@@ -25,7 +25,6 @@
     [self.shoppingCarViewBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shoppingCarEvent:)]];
     
     //给2个button添加点击事件
-    [self.joinInShopCarBtn addTarget:self action:@selector(joinInShopCarBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     [self.buyNowBtn addTarget:self action:@selector(buyNowBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -46,25 +45,6 @@
     [[self viewController].navigationController pushViewController:vc animated:YES];
 }
 
-//加入购物车
-- (void)joinInShopCarBtnClick:(UIButton *)btn{
-    NSLog(@"加入购物车");
-    [self addInShopCar];
-}
-
-- (void)addInShopCar{
-    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
-    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token ,@"count":@"1", @"goods_id" :@"000",@"gsp":@"000"};
-    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/add_goods_new_cart.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"-responseObject---%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"---error -- %@",error);
-    }];
-}
 
 //立即购买
 - (void)buyNowBtnClick:(UIButton *)btn{

@@ -43,6 +43,20 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedAll:) name:@"shopCarSelectAll" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(disSelectedAll:) name:@"shopCarDisSelectAll" object:nil];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startEditCountNoti:) name:@"startEditCount" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stopEditCountNoti:) name:@"stopEditCount" object:nil];
+    //进来时，数量加减框不显示
+    self.changeCountView.hidden = YES;
+}
+
+- (void)startEditCountNoti:(NSNotification *)noti{
+    self.changeCountView.hidden = NO;
+}
+
+- (void)stopEditCountNoti:(NSNotification *)noti{
+    self.changeCountView.hidden = YES;
 }
 
 - (void)selectedAll:(NSNotification *)noti{
@@ -59,9 +73,15 @@
     if (!btn.selected) {
         [btn setImage:[UIImage imageNamed:@"shopCarSelect"] forState:UIControlStateNormal];
         btn.selected = !btn.selected;
+        if ([self.delegate respondsToSelector:@selector(selectGoods:Type:)]) {
+            [self.delegate selectGoods:btn Type:1];
+        }
     }else{
         [btn setImage:[UIImage imageNamed:@"shopCarDisSelect"] forState:UIControlStateNormal];
         btn.selected = !btn.selected;
+        if ([self.delegate respondsToSelector:@selector(selectGoods:Type:)]) {
+            [self.delegate selectGoods:btn Type:0];
+        }
     }
 }
 
@@ -70,6 +90,9 @@
     NSInteger a = [self.changeCountLabel.text integerValue];
     a++;
     self.changeCountLabel.text = [NSString stringWithFormat:@"%ld",(long)a];
+    if ([self.delegate respondsToSelector:@selector(adjustGoodsNum:Count:)]) {
+        [self.delegate adjustGoodsNum:btn Count:a];
+    }
 }
 
 - (void)reduceBtnClick:(UIButton *)btn{
@@ -77,6 +100,9 @@
     if (a>1) {
         a--;
         self.changeCountLabel.text = [NSString stringWithFormat:@"%ld",(long)a];
+        if ([self.delegate respondsToSelector:@selector(adjustGoodsNum:Count:)]) {
+            [self.delegate adjustGoodsNum:btn Count:a];
+        }
     }
 }
 
@@ -107,7 +133,6 @@
             
             UIView *smsContentView = subView.subviews[0];
             smsContentView.backgroundColor = ZCXColor(239, 92, 82);
-//            smsContentView.backgroundColor = [UIColor clearColor];
             
             if (self.deleteBtn) {
                 [self.deleteBtn removeFromSuperview];
@@ -121,7 +146,10 @@
 }
 
 - (void)deleteEvents:(UIButton *)btn{
-    NSLog(@"删除");
+    NSLog(@"删除!!!");
+    if ([self.delegate respondsToSelector:@selector(deleteOneCell:)]) {
+        [self.delegate deleteOneCell:btn];
+    }
 }
 
 - (void)setModel:(LPPShopCarModel *)model{
@@ -129,6 +157,13 @@
     
     _commodityNameLabel.text = model.goods_name;
     _priceLabel.text = model.goods_price;
-    _countLabel.text = model.goods_count;
+    if (model.goods_count.length != 0) {
+        _countLabel.text = [@"数量x" stringByAppendingString:model.goods_count];
+    }
+    NSURL *imageUrl = [NSURL URLWithString:model.goods_main_photo];
+    [self.commodityImage sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        
+    }];
+    
 }
 @end
