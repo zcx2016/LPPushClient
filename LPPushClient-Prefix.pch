@@ -17,8 +17,8 @@
 #import <Masonry.h>
 #import "UIImageView+WebCache.h"
 
-#define kUrlReqHead @"http://192.168.0.107:8080"
-//#define kUrlReqHead @"http://10.0.0.55:8080"
+#define kUrlReqHead @"http://192.168.0.106:8080"
+
 #define ZcxUserDefauts [NSUserDefaults standardUserDefaults]
 
 #define kScreenWidth [UIScreen mainScreen].bounds.size.width

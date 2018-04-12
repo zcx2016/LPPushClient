@@ -18,4 +18,7 @@
 
 @property (nonatomic, copy) NSString  *defaultNum;
 
+@property (nonatomic, copy) NSString  *idcardfond;
+@property (nonatomic, copy) NSString  *idcardback;
+
 @end

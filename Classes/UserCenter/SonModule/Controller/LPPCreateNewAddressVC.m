@@ -117,10 +117,10 @@
                                     mimeType:@"image/jpeg"];
         }
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSLog(@"上传图片-responseObject---%@",responseObject);
-        NSLog(@" class----%@",[responseObject[@"verify"]  class]);
+        NSLog(@"上传图片----%@",responseObject);
         [SVProgressHUD showSuccessWithStatus:@"保存成功!"];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
             [self.navigationController popViewControllerAnimated:YES];
         });
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

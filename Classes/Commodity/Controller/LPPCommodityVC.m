@@ -86,7 +86,28 @@ static int const labelWith = 70;
     [self.navigationController.navigationBar setBackgroundImage:
      [UIImage imageNamed:@"userCenter_bg"] forBarMetrics:UIBarMetricsDefault];
     
-    [self loadBannerData];
+//    [self loadBannerData];
+    [self tempLogin];
+}
+
+- (void)tempLogin{
+    NSDictionary *dict = @{@"telephone" : @"13512345679" , @"password" : @"000000" , @"roleJudge" : @"PUSHING"};
+    [ZcxUserDefauts setObject:@"13512345679" forKey:@"telephone"];
+    [ZcxUserDefauts setObject:@"000000" forKey:@"password"];
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/jopen_shop_user_login.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"登录res----%@",responseObject);
+        [ZcxUserDefauts setObject:responseObject[@"token"] forKey:@"token"];
+        [ZcxUserDefauts setObject:responseObject[@"user_id"] forKey:@"user_id"];
+        [ZcxUserDefauts setObject:responseObject[@"verify"] forKey:@"verify"];
+        [ZcxUserDefauts synchronize];
+        //登录按钮暂时做退出使用
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self dismissViewControllerAnimated:YES completion:nil];
+        });
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"登录error----%@",error);
+    }];
 }
 
 - (void)loadBannerData{

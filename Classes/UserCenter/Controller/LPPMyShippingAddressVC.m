@@ -73,8 +73,21 @@
 
 #pragma mark - 实现 点击编辑按钮 代理
 - (void)isEditBtnClick:(UIButton *)btn{
-    LPPEditOldAddressVC *editOldAddressVc = [LPPEditOldAddressVC new];
-    [self.navigationController pushViewController:editOldAddressVc animated:YES];
+    //获得点击btn所在的cell
+    LPPMyShippingAddressCell *cell = (LPPMyShippingAddressCell *)[[btn superview] superview];
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    LPPMyShippingAddressModel *model = [self.dataSource objectAtIndex:indexPath.section - 1];
+    
+    LPPEditOldAddressVC *vc = [LPPEditOldAddressVC new];
+    vc.addr_id = model.addr_id;
+    vc.areaAddr = model.areaAddr;
+    vc.areaInfo = model.areaInfo;
+    vc.telephone = model.telephone;
+    vc.trueName = model.trueName;
+    vc.idcardback = model.idcardback;
+    vc.idcardfond = model.idcardfond;
+    vc.defaultNum = model.defaultNum;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - 实现 点击删除按钮 代理
