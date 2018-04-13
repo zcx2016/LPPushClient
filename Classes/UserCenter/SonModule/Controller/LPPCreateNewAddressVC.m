@@ -78,11 +78,16 @@
 
 #pragma mark - 创建底部保存按钮
 - (void)createBottomBtn{
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
+    UIButton *btn = [UIButton new];
+    [self.view addSubview:btn];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view).with.offset(0);
+        make.height.equalTo(@50);
+    }];
     [btn setTitle:@"保存" forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundColor:ZCXColor(242, 69, 60)];
-    [self.view addSubview:btn];
+    
 }
 
 //点击保存按钮
@@ -328,7 +333,8 @@
     [[[YJLocationPicker alloc] initWithSlectedLocation:^(NSArray *locationArray) {
         
         //拼接后给button赋值
-        [btn setTitle:[[locationArray[0] stringByAppendingString:locationArray[1]] stringByAppendingString:locationArray[2]]forState:UIControlStateNormal];
+//        [btn setTitle:[[locationArray[0] stringByAppendingString:locationArray[1]] stringByAppendingString:locationArray[2]]forState:UIControlStateNormal];
+          [btn setTitle:[[[[locationArray[0] stringByAppendingString:@"-"] stringByAppendingString:locationArray[1]] stringByAppendingString:@"-"] stringByAppendingString:locationArray[2]] forState:UIControlStateNormal];
         //改变btn按钮颜色
         [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }] show];

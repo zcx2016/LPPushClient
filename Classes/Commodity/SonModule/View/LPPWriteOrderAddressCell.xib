@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -65,8 +65,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="63F-NJ-a4W">
-                                <rect key="frame" x="438" y="29" width="6" height="22"/>
+                                <rect key="frame" x="428" y="29" width="16" height="22"/>
                                 <state key="normal" image="rightArrow.png"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rbq-SM-f1d">
+                                <rect key="frame" x="438" y="29" width="6" height="22"/>
+                                <state key="normal" image="youArrow.png"/>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -79,9 +83,11 @@
                             <constraint firstItem="12i-qE-QbY" firstAttribute="leading" secondItem="Wuh-Sz-5QW" secondAttribute="leading" constant="23" id="Mdy-0f-Bot"/>
                             <constraint firstItem="qpY-xY-pxy" firstAttribute="leading" secondItem="12i-qE-QbY" secondAttribute="trailing" constant="2" id="QsE-B8-ULQ"/>
                             <constraint firstItem="qpY-xY-pxy" firstAttribute="centerY" secondItem="12i-qE-QbY" secondAttribute="centerY" id="SX6-9z-fRo"/>
+                            <constraint firstItem="Rbq-SM-f1d" firstAttribute="centerY" secondItem="Wuh-Sz-5QW" secondAttribute="centerY" id="T6R-dV-U98"/>
                             <constraint firstItem="gOn-Nn-0f5" firstAttribute="leading" secondItem="FeK-JJ-c3I" secondAttribute="trailing" constant="2" id="cSH-KA-fPD"/>
                             <constraint firstAttribute="trailing" secondItem="63F-NJ-a4W" secondAttribute="trailing" constant="5" id="gFG-fE-ehJ"/>
                             <constraint firstItem="lPE-su-l1b" firstAttribute="trailing" secondItem="gOn-Nn-0f5" secondAttribute="trailing" id="jsd-me-f6v"/>
+                            <constraint firstAttribute="trailing" secondItem="Rbq-SM-f1d" secondAttribute="trailing" constant="5" id="mHm-JK-ddA"/>
                             <constraint firstItem="63F-NJ-a4W" firstAttribute="centerY" secondItem="Wuh-Sz-5QW" secondAttribute="centerY" id="mVK-i4-ZhB"/>
                             <constraint firstItem="FeK-JJ-c3I" firstAttribute="leading" secondItem="12i-qE-QbY" secondAttribute="leading" id="pds-19-J4S"/>
                             <constraint firstItem="gOn-Nn-0f5" firstAttribute="centerY" secondItem="FeK-JJ-c3I" secondAttribute="centerY" id="sv2-6v-3P5"/>
@@ -109,6 +115,7 @@
     </objects>
     <resources>
         <image name="local.png" width="16" height="21"/>
-        <image name="rightArrow.png" width="6" height="10"/>
+        <image name="rightArrow.png" width="16" height="12"/>
+        <image name="youArrow.png" width="6" height="10"/>
     </resources>
 </document>

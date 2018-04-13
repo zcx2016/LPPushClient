@@ -25,10 +25,13 @@
 
 @property (nonatomic, strong) UIView *barView;
 
-@property (nonatomic, strong) NSDictionary *addressDataSource;
-
 @property (nonatomic, strong) NSArray *orderArr;
 
+@property (nonatomic, copy) NSString  *addarea;
+@property (nonatomic, copy) NSString  *addareaInfo;
+@property (nonatomic, copy) NSString  *addrName;
+@property (nonatomic, copy) NSString  *addrPhone;
+@property (nonatomic, copy) NSString  *addressId;
 @end
 
 @implementation LPPBuyNowVC
@@ -39,6 +42,9 @@
     
     //去掉透明后导航栏下边的黑边
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    
+    //加载数据
+    [self loadOrderData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -61,26 +67,7 @@
     [self tableView];
     [self writeOrderBottomView];
     
-    //加载地址栏数据
-    [self loadAddressData];
-}
 
-- (void)loadAddressData{
-    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
-    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token};
-    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/address_new_default.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"---地址 -- %@",responseObject);
-        self.addressDataSource = responseObject;
-        //        [self.tableView reloadData];
-        //加载订单数据
-        [self loadOrderData];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"---error -- %@",error);
-    }];
 }
 
 - (void)loadOrderData{
@@ -93,6 +80,20 @@
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_cart0.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"-立即购买---%@",responseObject);
+        NSString *str = responseObject[@"addressMsg"];
+        if (str.length != 0) {
+            [SVProgressHUD showInfoWithStatus:@"请完善订单地址信息"];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [SVProgressHUD dismiss];
+            });
+        }else{
+            self.addarea = responseObject[@"addarea"];
+            self.addareaInfo = responseObject[@"addareaInfo"];
+            self.addrName = responseObject[@"addrName"];
+            self.addrPhone = responseObject[@"addrPhone"];
+            //地址id保存下来，立即支付时使用
+            self.addressId = responseObject[@"addressId"];
+        }
         
         self.orderArr = responseObject[@"goods_map_list"];
         [self.tableView reloadData];
@@ -100,22 +101,6 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"---error -- %@",error);
     }];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    
-    UIColor *color= ZCXColor(225, 61, 38);
-    CGFloat offset=scrollView.contentOffset.y;
-    
-    if (offset<0) {
-        
-        self.navigationController.navigationBar.backgroundColor = [color colorWithAlphaComponent:0];
-        self.barView.backgroundColor = [color colorWithAlphaComponent:0];
-    }else {
-        CGFloat alpha=1-((64-offset)/64);
-        self.navigationController.navigationBar.backgroundColor=[color colorWithAlphaComponent:alpha];
-        self.barView.backgroundColor = [color colorWithAlphaComponent:alpha];
-    }
 }
 
 - (LPPWriteOrderBottomView *)writeOrderBottomView{
@@ -150,9 +135,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         LPPWriteOrderAddressCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPWriteOrderAddressCell" forIndexPath:indexPath];
-        cell.receiverLabel.text = self.addressDataSource[@"trueName"];
-        cell.phoneNumLabel.text = self.addressDataSource[@"telephone"];
-        cell.addressLabel.text = [self.addressDataSource[@"areaAddr"] stringByAppendingString:self.addressDataSource[@"areaInfo"]];
+        cell.receiverLabel.text = self.addrName;
+        cell.phoneNumLabel.text = self.addrPhone;
+        cell.addressLabel.text = [self.addarea stringByAppendingString:self.addareaInfo];
         
         return cell;
     }else{
@@ -160,7 +145,6 @@
         NSString *str = [NSString stringWithFormat:@"%ld" ,self.orderArr.count];
         cell.dataSource = self.orderArr;
         cell.AllCountLabel.text = [str stringByAppendingString:@"件商品"];
-//        cell.count = self.orderArr.count;
         return cell;
     }
 }
@@ -205,7 +189,7 @@
 #pragma mark - 懒加载tableView
 - (UITableView *)tableView{
     if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight) style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight-50) style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -226,5 +210,19 @@
     return _tableView;
 }
 
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    UIColor *color= ZCXColor(225, 61, 38);
+    CGFloat offset=scrollView.contentOffset.y;
+    
+    if (offset<0) {
+        
+        self.navigationController.navigationBar.backgroundColor = [color colorWithAlphaComponent:0];
+        self.barView.backgroundColor = [color colorWithAlphaComponent:0];
+    }else {
+        CGFloat alpha=1-((64-offset)/64);
+        self.navigationController.navigationBar.backgroundColor=[color colorWithAlphaComponent:alpha];
+        self.barView.backgroundColor = [color colorWithAlphaComponent:alpha];
+    }
+}
 @end
