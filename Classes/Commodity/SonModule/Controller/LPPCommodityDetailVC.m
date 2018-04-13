@@ -16,8 +16,10 @@
 #import "LPPCommodityDetailBottomView.h"
 
 #import "ZCXActionSheetView.h"
+//立即购买
+#import "LPPBuyNowVC.h"
 
-@interface LPPCommodityDetailVC ()<UITableViewDataSource,UITableViewDelegate,LPPCDImgIntroductCellDelegate>
+@interface LPPCommodityDetailVC ()<UITableViewDataSource,UITableViewDelegate,LPPCDImgIntroductCellDelegate,LPPCDComparePriceCellDelegate,LPPCDCommodityStyleCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -69,6 +71,7 @@
     [self loadData];
 }
 
+#pragma mark - 商品详情
 - (void)loadData{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
@@ -95,8 +98,8 @@
         self.colorID = self.colorListArr[0][@"colorid"];
         self.sizeID = self.sizeListArr[0][@"id"];
 
-        //商品规格详情
-        [self loadClassesData];
+        //商品规格详情--第一次进入调用，传0；改变颜色调用，传1；改变规格调用，传2
+        [self loadClassesData:0 TypeID:@""];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"error--%@",error);
@@ -104,24 +107,52 @@
 }
 
 #pragma mark - 商品规格详情
-- (void)loadClassesData{
+- (void)loadClassesData:(NSInteger)type TypeID:(NSString *)typeId{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSString *gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"id" : self.goodsID , @"gsp" :gsp , @"colorId": self.colorID};
+    //动态改变
+    NSString *gsp;
+    if (type == 0) {
+        gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
+    }else if (type == 1){
+        gsp = [[typeId.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
+    }else{
+        gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:typeId.description];
+    }
+    //动态改变
+    NSDictionary *dict;
+    if (type == 1) {
+        dict = @{@"user_id" : user_id , @"token" : token , @"id" : self.goodsID , @"gsp" :gsp , @"colorId": typeId};
+    }else{
+        dict = @{@"user_id" : user_id , @"token" : token , @"id" : self.goodsID , @"gsp" :gsp , @"colorId": self.colorID};
+    }
+    
+    //调用网络请求
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/load_goods_gsp.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSLog(@"-规格---%@",responseObject);
-        self.lunboImgArr = responseObject[@"allColor"];
         
-        [self.tableView reloadData];
+        self.lunboImgArr = responseObject[@"allColor"];
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil] withRowAnimation:UITableViewRowAnimationAutomatic];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSLog(@"---error -- %@",error);
     }];
 }
 
+#pragma mark - 点击规格和颜色后重新调用商品详情接口
+- (void)reloadGoodsUIWithColorId:(NSString *)colorID{
+    self.colorID = colorID;
+    [self loadClassesData:1 TypeID:colorID];
+}
+
+- (void)reloadGoodsUIWithSizeId:(NSString *)sizeID{
+    self.sizeID = sizeID;
+    [self loadClassesData:2 TypeID:sizeID];
+}
+
+#pragma mark - 分享按钮点击事件
 - (void)shareBtnClick:(UIButton *)btn{
 
     ZCXActionSheetView *sheet = [[ZCXActionSheetView alloc] initWithActionSheet];
@@ -130,6 +161,7 @@
     [window addSubview:sheet];
 }
 
+#pragma mark - 加载底部view
 - (LPPCommodityDetailBottomView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[NSBundle mainBundle] loadNibNamed:@"LPPCommodityDetailBottomView" owner:nil options:nil].lastObject;
@@ -138,12 +170,25 @@
             make.left.right.bottom.equalTo(self.view).with.offset(0);
             make.height.equalTo(@50);
         }];
-        
         //加入购物车
         [_bottomView.joinInShopCarBtn addTarget:self action:@selector(joinInShopCarBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        //立即购买
+        [_bottomView.buyNowBtn addTarget:self action:@selector(buyNowBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _bottomView;
 }
+
+#pragma mark - 立即购买
+- (void)buyNowBtnClick:(UIButton *)btn{
+    NSLog(@"立即购买");
+    LPPBuyNowVC *vc = [LPPBuyNowVC new];
+    NSString *gsp = [[self.colorID.description stringByAppendingString:@","] stringByAppendingString:self.sizeID.description];
+    vc.goods_id = self.goodsID;
+    vc.gsp = gsp;
+    vc.price = self.currentPrice;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - 加入购物车
 - (void)joinInShopCarBtnClick{
@@ -201,10 +246,12 @@
         }else if(indexPath.row == 2){
             LPPCDCommodityStyleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDCommodityStyleCell" forIndexPath:indexPath];
             cell.dataArray = self.colorListArr;
+            cell.delegate = self;
             return cell;
         }else{
             LPPCDComparePriceCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDComparePriceCell" forIndexPath:indexPath];
             cell.dataArray = self.sizeListArr;
+            cell.delegate = self;
             return cell;
         }
         

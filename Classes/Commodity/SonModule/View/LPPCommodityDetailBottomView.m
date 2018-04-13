@@ -22,10 +22,6 @@
     
     self.shoppingCarViewBtn.userInteractionEnabled = YES;
     [self.shoppingCarViewBtn addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(shoppingCarEvent:)]];
-    
-    //给2个button添加点击事件
-    
-    [self.buyNowBtn addTarget:self action:@selector(buyNowBtnClick:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //分享
@@ -44,11 +40,6 @@
     [[self viewController].navigationController pushViewController:vc animated:YES];
 }
 
-
-//立即购买
-- (void)buyNowBtnClick:(UIButton *)btn{
-    NSLog(@"立即购买");
-}
 
 //获取控制器
 - (UIViewController *)viewController

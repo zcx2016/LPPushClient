@@ -52,6 +52,15 @@
     return cell;
 }
 
+#pragma mark - 点击事件
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    LPPColorListModel *model = self.dataSource[indexPath.item];
+    NSLog(@"id-----%@",model.colorid);
+    if ([self.delegate respondsToSelector:@selector(reloadGoodsUIWithColorId:)]) {
+        [self.delegate reloadGoodsUIWithColorId:model.colorid];
+    }
+}
+
 //每一个分组的上左下右间距
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(10, 5, 0, 1);

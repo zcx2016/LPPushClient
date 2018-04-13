@@ -11,7 +11,7 @@
 
 @interface LPPSizeCollectionCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *sizeBtn;
+@property (weak, nonatomic) IBOutlet UILabel *sizeLabel;
 
 @property (nonatomic, strong) LPPSizeListModel *model;
 @end

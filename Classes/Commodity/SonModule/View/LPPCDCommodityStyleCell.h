@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol LPPCDCommodityStyleCellDelegate<NSObject>
+
+@optional
+- (void)reloadGoodsUIWithColorId:(NSString *)colorID;
+
+@end
+
 @interface LPPCDCommodityStyleCell : UITableViewCell
 
 @property (nonatomic, strong) NSArray *dataArray;
+
+@property (nonatomic, weak) id <LPPCDCommodityStyleCellDelegate> delegate;
 @end

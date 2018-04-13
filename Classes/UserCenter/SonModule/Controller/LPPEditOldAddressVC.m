@@ -29,6 +29,24 @@
 
 @property (nonatomic, weak) UITableViewCell *week_defaultCell;
 
+@property (nonatomic, weak) LPPUploadIdCardImgCell *week_idCardImgCell;
+
+//弱引用4个控件，来取值
+@property (nonatomic, weak) UITextField *weak_nameTF;
+@property (nonatomic, weak) UITextField *weak_phoneTF;
+@property (nonatomic, weak) UITextField *weak_addressTF;
+@property (nonatomic, weak) UIButton *weak_areaBtn;
+
+//是否有海外购
+@property (nonatomic, copy) NSString  *haveOverSea;
+//是否 设为默认
+@property (nonatomic, copy) NSString  *isSetDefault;
+//图片数组
+@property (nonatomic, strong) NSMutableArray *imgArray;
+
+//自定义 联系电话 的inputAccessoryView
+@property (nonatomic, strong) UIToolbar *customAccessoryView;
+
 @end
 
 @implementation LPPEditOldAddressVC
@@ -44,16 +62,65 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:deleteBtn];
     [deleteBtn addTarget:self action:@selector(sureToDeleteAddress) forControlEvents:UIControlEventTouchUpInside];
     
-    [self tableView];
+    //默认都为0
+    self.isSetDefault = @"0";
+    self.haveOverSea = @"0";
+    self.imgArray = [NSMutableArray array];
     
+    //加载ui
+    [self tableView];
     [self createBottomBtn];
 }
 
 - (void)createBottomBtn{
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
     [btn setTitle:@"保存" forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(saveBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [btn setBackgroundColor:ZCXColor(242, 69, 60)];
     [self.view addSubview:btn];
+}
+//点击保存按钮
+- (void)saveBtnClick:(UIButton *)btn{
+    [self uploadData];
+}
+
+//保存
+- (void)uploadData{
+    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
+    NSString *token = [ZcxUserDefauts objectForKey:@"token"];
+    NSString *trueName = self.weak_nameTF.text;
+    NSString *telephone = self.weak_phoneTF.text;
+    NSString *area_addr = self.weak_areaBtn.titleLabel.text;
+    NSString *area_info = self.weak_addressTF.text;
+    
+    //判断是否有海外购
+    [self judgeHaveOverSeaImg];
+    
+    //网络请求
+    NSDictionary *dict = @{@"trueName" : trueName ,@"user_id" : user_id , @"token" : token, @"telephone" : telephone ,@"area_addr" : area_addr, @"area_info" : area_info, @"idCard" : self.haveOverSea , @"isDefaultAddress" : self.isSetDefault};
+    NSLog(@"dict=====%@",dict);
+    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
+    
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/address_new_save.htm"] parameters:dict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        if (!self.imgArray) return;
+        
+        for (NSUInteger i = 0; i < self.imgArray.count; ++i) {
+            [formData appendPartWithFileData:self.imgArray[i]
+                                        name:[NSString stringWithFormat:@"%zd", i]
+                                    fileName:[NSString stringWithFormat:@"uploadPhoto%zd.jpg",i]  //随便写
+                                    mimeType:@"image/jpeg"];
+        }
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSLog(@"上传图片----%@",responseObject);
+        [SVProgressHUD showSuccessWithStatus:@"保存成功!"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [SVProgressHUD dismiss];
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"上传图片---error -- %@",error);
+    }];
 }
 
 - (void)addOverseaBuyCell{
@@ -115,6 +182,27 @@
     }] show];
 }
 
+- (void)judgeHaveOverSeaImg{
+    if (!self.week_idCardImgCell.idCardFrontImgView.image && ! self.week_idCardImgCell.idCardBackImgView.image) {
+        self.haveOverSea = @"0";  //无海外购
+    }else{
+        if (self.week_idCardImgCell.idCardFrontImgView.image  && ! self.week_idCardImgCell.idCardBackImgView.image) {
+            //有正面照 ,无反面照
+            [SVProgressHUD showErrorWithStatus:@"缺少身份证背面照"];
+        }else if (!self.week_idCardImgCell.idCardFrontImgView.image  && self.week_idCardImgCell.idCardBackImgView.image){
+            //有反面照 ,无正面照
+            [SVProgressHUD showErrorWithStatus:@"缺少身份证正面照"];
+        }else{ //都有
+            self.haveOverSea = @"1";  //有海外购
+            NSData *imageData1 = UIImageJPEGRepresentation(self.week_idCardImgCell.idCardFrontImgView.image, 0.5);
+            NSData *imageData2 = UIImageJPEGRepresentation(self.week_idCardImgCell.idCardBackImgView.image, 0.5);
+            [self.imgArray addObject:imageData1];
+            [self.imgArray addObject:imageData2];
+        }
+    }
+}
+
+
 #pragma mark - tableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 2;
@@ -152,6 +240,8 @@
                 [cell.addressBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 
                 [cell.addressBtn addTarget:self action:@selector(addressPickerEvents:) forControlEvents:UIControlEventTouchUpInside];
+                
+                self.weak_areaBtn = cell.addressBtn;
                 return cell;
             }else if (indexPath.row == 4) {
                 LPPOverseaBuyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPOverseaBuyCell" forIndexPath:indexPath];
@@ -164,9 +254,13 @@
                     if(indexPath.row == 0){
                         cell.nameLabel.text = @"姓名";
                         cell.detailTextField.text = self.trueName;
+                        self.weak_nameTF = cell.detailTextField;
                     }else{
                         cell.nameLabel.text = @"联系电话";
                         cell.detailTextField.text = self.telephone;
+                        cell.detailTextField.keyboardType = UIKeyboardTypePhonePad;
+                        cell.detailTextField.inputAccessoryView = self.customAccessoryView;
+                        self.weak_phoneTF = cell.detailTextField;
                     }
                     return cell;
                 }else{
@@ -174,6 +268,7 @@
                     cell.detailTextField.textAlignment = NSTextAlignmentRight;
                     cell.nameLabel.text = @"详细地址";
                     cell.detailTextField.text = self.areaInfo;
+                    self.weak_addressTF = cell.detailTextField;
                     return cell;
                 }
             }
@@ -185,6 +280,8 @@
                 [cell.addressBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
                 
                 [cell.addressBtn addTarget:self action:@selector(addressPickerEvents:) forControlEvents:UIControlEventTouchUpInside];
+                
+                self.weak_areaBtn = cell.addressBtn;
                 return cell;
             }else if (indexPath.row == 4) {
                 LPPOverseaBuyCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPOverseaBuyCell" forIndexPath:indexPath];
@@ -215,9 +312,13 @@
                     if(indexPath.row == 0){
                         cell.nameLabel.text = @"姓名";
                         cell.detailTextField.text = self.trueName;
+                        self.weak_nameTF = cell.detailTextField;
                     }else{
                         cell.nameLabel.text = @"联系电话";
                         cell.detailTextField.text = self.telephone;
+                        cell.detailTextField.keyboardType = UIKeyboardTypePhonePad;
+                        cell.detailTextField.inputAccessoryView = self.customAccessoryView;
+                        self.weak_phoneTF = cell.detailTextField;
                     }
                     return cell;
                 }else{
@@ -225,6 +326,7 @@
                     cell.detailTextField.textAlignment = NSTextAlignmentRight;
                     cell.nameLabel.text = @"详细地址";
                     cell.detailTextField.text = self.areaInfo;
+                    self.weak_addressTF = cell.detailTextField;
                     return cell;
                 }
             }
@@ -303,4 +405,31 @@
     return _tableView;
 }
 
+//#pragma mark - 地址选择栏
+//- (void)addressPickerEvents:(UIButton *)btn{
+//    //直接调用
+//    [[[YJLocationPicker alloc] initWithSlectedLocation:^(NSArray *locationArray) {
+//        
+//        //拼接后给button赋值
+//        [btn setTitle:[[locationArray[0] stringByAppendingString:locationArray[1]] stringByAppendingString:locationArray[2]]forState:UIControlStateNormal];
+//        //改变btn按钮颜色
+//        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    }] show];
+//}
+
+//自定义 电话 和 qq 的inputAccessoryView
+- (UIToolbar *)customAccessoryView{
+    if (!_customAccessoryView) {
+        _customAccessoryView = [[UIToolbar alloc]initWithFrame:(CGRect){0,0,kScreenWidth,45}];
+        _customAccessoryView.barTintColor = [UIColor lightGrayColor];
+        UIBarButtonItem *space = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+        UIBarButtonItem *finish = [[UIBarButtonItem alloc]initWithTitle:@"完成" style:UIBarButtonItemStyleDone target:self action:@selector(done)];
+        [_customAccessoryView setItems:@[space,finish]];
+    }
+    return _customAccessoryView;
+}
+
+- (void)done{
+    [self.weak_phoneTF resignFirstResponder];
+}
 @end

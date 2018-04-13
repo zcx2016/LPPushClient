@@ -1,12 +1,12 @@
 //
-//  LPPWriteOrderVC.m
+//  LPPBuyNowVC.m
 //  LPPushClient
 //
 //  Created by 张晨曦 on 2018/3/15.
 //  Copyright © 2018年 张晨曦. All rights reserved.
 //
 
-#import "LPPWriteOrderVC.h"
+#import "LPPBuyNowVC.h"
 #import "LPPWriteOrderAddressCell.h"
 #import "LPPWriteOrderCommodityCell.h"
 #import "LPPWriteOrderBottomView.h"
@@ -14,7 +14,10 @@
 #import "LPPWriteOrderAddressModel.h"
 #import "LPPSuccessPayVC.h"
 
-@interface LPPWriteOrderVC ()<UITableViewDelegate,UITableViewDataSource>
+#import "LPPBuyNowOrderCell.h"
+#import "LPPBuyNowOutCell.h"
+
+@interface LPPBuyNowVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -28,7 +31,7 @@
 
 @end
 
-@implementation LPPWriteOrderVC
+@implementation LPPBuyNowVC
 
 - (void)viewWillAppear:(BOOL)animated{
     //设置导航栏背景图片为一个空的image，这样就透明了
@@ -46,7 +49,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+    
+    //立即购买
     self.navigationItem.title = @"填写订单";
     self.orderArr = [NSArray array];
     
@@ -70,7 +74,7 @@
         
         NSLog(@"---地址 -- %@",responseObject);
         self.addressDataSource = responseObject;
-//        [self.tableView reloadData];
+        //        [self.tableView reloadData];
         //加载订单数据
         [self loadOrderData];
         
@@ -82,11 +86,14 @@
 - (void)loadOrderData{
     NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
     NSString *token = [ZcxUserDefauts objectForKey:@"token"];
-    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"order_type" : @"ios" , @"coupon_id" : @"" ,@"cart_ids" : self.cart_ids};
+    
+    NSDictionary *dict = @{@"user_id" : user_id , @"token" : token , @"goods_id" : self.goods_id , @"count" : @"1" ,@"price" : self.price , @"gsp" : self.gsp};
+    NSLog(@"DICT----%@",dict);
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_new_cart3.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods_cart0.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
-        NSLog(@"-支付订单---%@",responseObject);
+        NSLog(@"-立即购买---%@",responseObject);
+        
         self.orderArr = responseObject[@"goods_map_list"];
         [self.tableView reloadData];
         
@@ -96,10 +103,10 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-
+    
     UIColor *color= ZCXColor(225, 61, 38);
     CGFloat offset=scrollView.contentOffset.y;
-
+    
     if (offset<0) {
         
         self.navigationController.navigationBar.backgroundColor = [color colorWithAlphaComponent:0];
@@ -149,7 +156,7 @@
         
         return cell;
     }else{
-        LPPWriteOrderCommodityCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPWriteOrderCommodityCell" forIndexPath:indexPath];
+        LPPBuyNowOutCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPBuyNowOutCell" forIndexPath:indexPath];
         NSString *str = [NSString stringWithFormat:@"%ld" ,self.orderArr.count];
         cell.dataSource = self.orderArr;
         cell.AllCountLabel.text = [str stringByAppendingString:@"件商品"];
@@ -210,7 +217,7 @@
         
         //注册cell
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPWriteOrderAddressCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPWriteOrderAddressCell"];
-        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPWriteOrderCommodityCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPWriteOrderCommodityCell"];
+        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPBuyNowOutCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPBuyNowOutCell"];
         //注册footView
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPPayMethodFooterView class]) bundle:[NSBundle mainBundle]] forHeaderFooterViewReuseIdentifier:@"LPPPayMethodFooterView"];
         

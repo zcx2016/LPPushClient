@@ -13,8 +13,6 @@
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
-
-
 @end
 
 @implementation LPPFiltBrandCell
@@ -23,7 +21,6 @@
     [super awakeFromNib];
 
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-
 }
 
 - (void)layoutSubviews{

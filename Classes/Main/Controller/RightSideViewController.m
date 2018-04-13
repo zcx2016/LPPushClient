@@ -13,7 +13,6 @@
 #import "LPPFilterHeadView.h"
 #import "LPPFiltBrandCell.h"
 #import "LPPFiltCategoryCell.h"
-#import "LPPFiltServiceDiscountCell.h"
 
 //点击 完成 ，跳转
 #import "LPPGoodsListVC.h"
@@ -241,7 +240,6 @@
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPFilterFirstCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPFilterFirstCell"];
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPFiltBrandCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPFiltBrandCell"];
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPFiltCategoryCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPFiltCategoryCell"];
-        [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPFiltServiceDiscountCell class]) bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"LPPFiltServiceDiscountCell"];
         //注册headView
         [_tableView registerNib:[UINib nibWithNibName:NSStringFromClass([LPPFilterHeadView class]) bundle:[NSBundle mainBundle]] forHeaderFooterViewReuseIdentifier:@"LPPFilterHeadView"];
         

@@ -57,12 +57,16 @@
 
 #pragma mark - 设置 底部按钮
 - (void)setBottomBtn{
-    UIButton *bottomBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, kScreenHeight-50, kScreenWidth, 50)];
+    UIButton *bottomBtn = [[UIButton alloc] init];
+    [self.view addSubview:bottomBtn];
+    [bottomBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self.view).with.offset(0);
+        make.height.equalTo(@50);
+    }];
     [bottomBtn setTitle:@"新建地址" forState:UIControlStateNormal];
     [bottomBtn setBackgroundColor:ZCXColor(242, 69, 60)];
     //点击事件
     [bottomBtn addTarget:self action:@selector(createNewAddress) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:bottomBtn];
 }
 
 #pragma mark - 创建新地址

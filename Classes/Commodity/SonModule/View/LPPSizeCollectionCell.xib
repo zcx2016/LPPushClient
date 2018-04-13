@@ -18,25 +18,22 @@
                 <rect key="frame" x="0.0" y="0.0" width="97" height="42"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WoR-9B-RnK">
-                        <rect key="frame" x="0.0" y="0.0" width="97" height="42"/>
-                        <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                        <state key="normal">
-                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        </state>
-                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dfI-yz-SRU">
+                        <rect key="frame" x="29.5" y="12" width="37.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="WoR-9B-RnK" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="OnE-O5-gXi"/>
-                <constraint firstAttribute="trailing" secondItem="WoR-9B-RnK" secondAttribute="trailing" id="Zu8-pV-tGa"/>
-                <constraint firstItem="WoR-9B-RnK" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="ahw-1T-sjm"/>
-                <constraint firstAttribute="bottom" secondItem="WoR-9B-RnK" secondAttribute="bottom" id="rbJ-v9-EFt"/>
+                <constraint firstItem="dfI-yz-SRU" firstAttribute="centerY" secondItem="gTV-IL-0wX" secondAttribute="centerY" id="knJ-BZ-OOk"/>
+                <constraint firstItem="dfI-yz-SRU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="lAr-WG-lfs"/>
             </constraints>
             <size key="customSize" width="97" height="42"/>
             <connections>
-                <outlet property="sizeBtn" destination="WoR-9B-RnK" id="Leu-Zb-XrR"/>
+                <outlet property="sizeLabel" destination="dfI-yz-SRU" id="f31-Zg-N8e"/>
             </connections>
             <point key="canvasLocation" x="-19.5" y="101"/>
         </collectionViewCell>

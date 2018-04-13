@@ -51,6 +51,16 @@
     return cell;
 }
 
+#pragma mark - 点击事件
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    LPPSizeListModel *model = self.dataSource[indexPath.item];
+    NSLog(@"ID======%@",model.id);
+    //回调商品规格接口
+    if ([self.delegate respondsToSelector:@selector(reloadGoodsUIWithSizeId:)]) {
+        [self.delegate reloadGoodsUIWithSizeId:model.id];
+    }
+}
+
 //每一个分组的上左下右间距
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(0, 5, 0, 0);
