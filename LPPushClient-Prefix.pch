@@ -17,7 +17,7 @@
 #import <Masonry.h>
 #import "UIImageView+WebCache.h"
 
-#define kUrlReqHead @"http://192.168.0.106:8080"
+#define kUrlReqHead @"http://192.168.8.105:8080"
 
 #define ZcxUserDefauts [NSUserDefaults standardUserDefaults]
 

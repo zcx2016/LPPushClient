@@ -45,33 +45,6 @@
     }
 }
 
-//@synthesize count = _count;
-//- (void)setCount:(NSInteger )count{
-//    self.dataArray = [NSArray yy_modelArrayWithClass:[LPPWriteOrderModel class] json:self.dataSource];
-//    if (count> 0 && _flag == NO) {
-//        _flag = YES;
-//        for (int i = 0; i < count; i++) {
-//            LPPWriteOrderCommoditySubView *orderView = [[NSBundle mainBundle] loadNibNamed:@"LPPWriteOrderCommoditySubView" owner:nil options:nil].lastObject;
-//            orderView.backgroundColor = [UIColor yellowColor];
-//            NSLog(@"self.dataArray222=====%@",self.dataArray);
-//            if (self.dataArray.count != 0) {
-//                LPPWriteOrderModel *model = self.dataArray[i];
-//                orderView.model = model;
-//            }
-//
-//            NSLog(@"i=====%d",i);
-//            orderView.lineView.hidden = NO;
-//            orderView.frame = CGRectMake(10, 30 +140 *i, kScreenWidth- 40, 1);
-//            NSLog(@"orderView.frame====%@",orderView);
-//            if (i == count - 1) {
-//                orderView.lineView.hidden = YES;
-//            }
-//             [self.outView addSubview:orderView];
-//        }
-//
-//    }
-//}
-
 #pragma mark - tableView Delegate
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -130,5 +103,32 @@
     }
     return _tableView;
 }
+
+//@synthesize count = _count;
+//- (void)setCount:(NSInteger )count{
+//    self.dataArray = [NSArray yy_modelArrayWithClass:[LPPWriteOrderModel class] json:self.dataSource];
+//    if (count> 0 && _flag == NO) {
+//        _flag = YES;
+//        for (int i = 0; i < count; i++) {
+//            LPPWriteOrderCommoditySubView *orderView = [[NSBundle mainBundle] loadNibNamed:@"LPPWriteOrderCommoditySubView" owner:nil options:nil].lastObject;
+//            orderView.backgroundColor = [UIColor yellowColor];
+//            NSLog(@"self.dataArray222=====%@",self.dataArray);
+//            if (self.dataArray.count != 0) {
+//                LPPWriteOrderModel *model = self.dataArray[i];
+//                orderView.model = model;
+//            }
+//
+//            NSLog(@"i=====%d",i);
+//            orderView.lineView.hidden = NO;
+//            orderView.frame = CGRectMake(10, 30 +140 *i, kScreenWidth- 40, 1);
+//            NSLog(@"orderView.frame====%@",orderView);
+//            if (i == count - 1) {
+//                orderView.lineView.hidden = YES;
+//            }
+//             [self.outView addSubview:orderView];
+//        }
+//
+//    }
+//}
 
 @end

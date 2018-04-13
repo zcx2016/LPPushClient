@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LPPMyOrderSonModel.h"
 
 @interface LPPMyOrderSubCell : UITableViewCell
 
@@ -20,5 +20,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *sizeLabel;
 @property (weak, nonatomic) IBOutlet UIView *lineView;
+
+@property (nonatomic, strong) LPPMyOrderSonModel *model;
 
 @end

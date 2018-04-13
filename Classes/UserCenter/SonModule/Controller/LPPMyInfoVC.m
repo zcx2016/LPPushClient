@@ -62,6 +62,7 @@
     
     //调数据
     [self loadData];
+    
     //修改昵称的通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(nickNameChangedNoti:) name:@"nickNameChanged" object:nil];
 }

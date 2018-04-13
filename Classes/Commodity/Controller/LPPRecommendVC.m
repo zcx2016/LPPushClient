@@ -60,19 +60,11 @@
     NSArray *arr = noti.userInfo[@"arr"];
     LPPGoodsListVC *vc = [LPPGoodsListVC new];
     vc.drawArray = arr;
-    NSLog(@"self.navigationController---%@",self.navigationController);
     [self.navigationController pushViewController:vc animated:YES];
-    
-    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //            LPPGoodsListVC *vc = [LPPGoodsListVC new];
-    //            vc.drawArray = responseObject[@"json_list"];
-    //            NSLog(@"self.navigationController---%@",self.navigationController);
-    //            [self.navigationController pushViewController:vc animated:YES];
-    //        });
 }
 
 - (void)loadLunBoData{
-    NSDictionary *dict = @{@"id" : @"38"};
+    NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_adv.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
@@ -88,7 +80,6 @@
 }
 
 - (void)loadSecondCellData{
-    self.tagId = @"1";
     NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_big_photo.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -102,7 +93,6 @@
 }
 
 - (void)loadFooterViewData{
-    self.tagId = @"1";
     NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/man_women.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -131,15 +121,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
         LPPRecommendFirstCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendFirstCell" forIndexPath:indexPath];
-  
+        cell.tagId = self.tagId;
         return cell;
     }else if (indexPath.section == 1){
         LPPRecommendSecondCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendSecondCell" forIndexPath:indexPath];
-        cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
+        if (self.secondArray.count != 0) {
+            cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
+        }
+        
         return cell;
     }else{
         LPPRecommendSecondCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPRecommendSecondCell" forIndexPath:indexPath];
-        cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
+        if (self.secondArray.count != 0) {
+            cell.dataSource = self.secondArray[indexPath.section -1][@"secondList"];
+        }
         return cell;
     }
 }
@@ -184,13 +179,16 @@
             [self.imgView removeFromSuperview];
         }
         
-        NSString *secondID = self.secondArray[section -1][@"secondId"];
-        
-        NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
-        NSLog(@"++%@\n---%@",secondID,url);
-        [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (self.secondArray.count !=0) {
+            NSString *secondID = self.secondArray[section -1][@"secondId"];
+            
+            NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
+            NSLog(@"++%@\n---%@",secondID,url);
+            [self.imgView sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                
+            }];
+        }
 
-        }];
         [view addSubview:self.imgView];
 
         return view;
@@ -202,13 +200,16 @@
         if (self.imgView2) {
             [self.imgView2 removeFromSuperview];
         }
-        NSString *secondID = self.secondArray[section -1][@"secondId"];
         
-        NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
-        NSLog(@"++%@\n---%@",secondID,url);
-        [self.imgView2 sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+        if (self.secondArray.count !=0) {
+            NSString *secondID = self.secondArray[section -1][@"secondId"];
             
-        }];
+            NSURL *url = [NSURL URLWithString:self.secondArray[section -1][@"secondPhoto"]];
+            NSLog(@"++%@\n---%@",secondID,url);
+            [self.imgView2 sd_setImageWithURL:url placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
+                
+            }];
+        }
         [view addSubview:self.imgView2];
         return view;
     }

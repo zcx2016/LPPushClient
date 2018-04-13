@@ -227,12 +227,10 @@ static const int imageBtnCount = 3;
     }
 }
 
-
 - (void)imageBtnClick:(UIButton *)btn {
     if ([self.delegate respondsToSelector:@selector(carouselView:indexOfClickedImageBtn:)])
     {
         [self.delegate carouselView:self indexOfClickedImageBtn:btn.tag];
     }
-
 }
 @end

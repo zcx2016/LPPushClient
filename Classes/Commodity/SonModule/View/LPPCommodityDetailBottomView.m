@@ -15,7 +15,6 @@
 - (void)awakeFromNib{
     [super awakeFromNib];
     
-    self.backgroundColor = [UIColor blueColor];
     self.frame =CGRectMake(0, 0, kScreenWidth, 50);
     //给2个uiview添加点击事件
     self.shareViewBtn.userInteractionEnabled = YES;

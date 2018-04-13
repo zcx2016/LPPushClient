@@ -10,6 +10,8 @@
 
 @interface LPPCDPriceNameCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *storeLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *currentPriceLabel;
 
 @property (weak, nonatomic) IBOutlet UILabel *oldPriceLabel;

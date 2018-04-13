@@ -26,12 +26,15 @@
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="弹性丝绒小礼服无肩蕾丝坎肩" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4JA-m5-Yk7">
                         <rect key="frame" x="5" y="110" width="114" height="31.5"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="fpV-Ca-dJ0"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$10380" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vpm-wn-iOU">
-                        <rect key="frame" x="38.5" y="146.5" width="47" height="16"/>
+                        <rect key="frame" x="5" y="146.5" width="47" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -60,7 +63,6 @@
             <constraints>
                 <constraint firstItem="nOQ-MB-hLr" firstAttribute="leading" secondItem="2nh-wh-raz" secondAttribute="trailing" constant="5" id="5cb-BT-Njl"/>
                 <constraint firstItem="nOQ-MB-hLr" firstAttribute="centerY" secondItem="2nh-wh-raz" secondAttribute="centerY" id="FmH-x1-eki"/>
-                <constraint firstItem="vpm-wn-iOU" firstAttribute="centerX" secondItem="gTV-IL-0wX" secondAttribute="centerX" id="HOd-Bu-hZi"/>
                 <constraint firstItem="C3z-8r-Ik3" firstAttribute="trailing" secondItem="nOQ-MB-hLr" secondAttribute="trailing" id="STk-fj-rc4"/>
                 <constraint firstItem="GU6-KV-VlF" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="T5d-5o-W91"/>
                 <constraint firstItem="2nh-wh-raz" firstAttribute="leading" secondItem="4JA-m5-Yk7" secondAttribute="leading" id="UKQ-Vd-2vK"/>
@@ -71,6 +73,7 @@
                 <constraint firstAttribute="trailing" secondItem="4JA-m5-Yk7" secondAttribute="trailing" constant="5" id="jFK-eM-aHb"/>
                 <constraint firstAttribute="trailing" secondItem="GU6-KV-VlF" secondAttribute="trailing" constant="5" id="jTS-fL-Odb"/>
                 <constraint firstItem="4JA-m5-Yk7" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="jmW-po-9vA"/>
+                <constraint firstItem="vpm-wn-iOU" firstAttribute="leading" secondItem="4JA-m5-Yk7" secondAttribute="leading" id="kib-ZI-TgJ"/>
                 <constraint firstItem="2nh-wh-raz" firstAttribute="top" secondItem="vpm-wn-iOU" secondAttribute="bottom" constant="5" id="nMO-uH-1ga"/>
                 <constraint firstItem="4JA-m5-Yk7" firstAttribute="top" secondItem="GU6-KV-VlF" secondAttribute="bottom" constant="10" id="ze7-Ao-7ka"/>
             </constraints>

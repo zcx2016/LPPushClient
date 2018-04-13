@@ -30,11 +30,11 @@
 }
 
 - (void)loadData{
-    self.tagId = @"3";
+
     NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/activity_new_goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
+        NSLog(@"活动----%@",responseObject);
         NSArray *arr1 = responseObject[@"json_list"];
         NSArray *arr2 = [NSArray array];
         for (NSDictionary *dict in arr1) {

@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) NSArray *imgArray;
 
+@property (weak, nonatomic) IBOutlet UIButton *tagBtn;
+
+
 @end

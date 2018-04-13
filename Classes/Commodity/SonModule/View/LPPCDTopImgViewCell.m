@@ -8,9 +8,11 @@
 
 #import "LPPCDTopImgViewCell.h"
 
-@interface LPPCDTopImgViewCell()<UICollectionViewDataSource,UICollectionViewDelegate>
+@interface LPPCDTopImgViewCell()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate>
 
 @property (nonatomic, strong) UICollectionView *collectionView;
+
+@property (nonatomic, assign) NSInteger pageIndex;
 @end
 
 @implementation LPPCDTopImgViewCell
@@ -20,13 +22,13 @@
     
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     [self collectionView];
-    
-
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
     if (self.imgArray.count!=0) {
+        NSString *str = [NSString stringWithFormat:@"%ld" , self.imgArray.count];
+        [self.tagBtn setTitle:[@"1/" stringByAppendingString:str] forState:UIControlStateNormal];
         [self.collectionView reloadData];
     }
 }
@@ -37,7 +39,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return 4;
+    return self.imgArray.count;
 }
 
 #pragma  mark - UICollectionViewDataSource
@@ -68,6 +70,15 @@
     return CGSizeMake(kScreenWidth, 200);
 }
 
+#pragma mark - 计算当前页数
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+    self.pageIndex = targetContentOffset->x / kScreenWidth +1;
+    NSString *current = [NSString stringWithFormat:@"%ld" , self.pageIndex];
+    NSString *sum = [NSString stringWithFormat:@"%ld" , self.imgArray.count];
+    [self.tagBtn setTitle:[[current stringByAppendingString:@"/"] stringByAppendingString:sum] forState:UIControlStateNormal];
+}
+
 #pragma mark - 懒加载
 - (UICollectionView *)collectionView{
     if (!_collectionView) {
@@ -83,8 +94,7 @@
         _collectionView.scrollsToTop = NO;
         //注册cell
         [_collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:@"imgCell"];
-//        [_collectionView registerNib:[UINib nibWithNibName:@"imgCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:@"imgCell"];
-        
+
         [self addSubview:_collectionView];
     }
     return _collectionView;

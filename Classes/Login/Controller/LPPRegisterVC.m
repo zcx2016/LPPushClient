@@ -54,6 +54,7 @@
 - (void)sendVerifyCodeEvents{
 
     if ([self isAllowSendVerifyCode]) {
+        [self.verifyCodeTextField resignFirstResponder];
         NSDictionary *dict = @{@"mobile" : self.phoneNumTextField.text , @"type" : @"1"};
         [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
         [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/send_register_code.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -78,7 +79,7 @@
         NSString *password = self.pwdNumTextField.text;
         NSString *telephone = self.phoneNumTextField.text;
         NSString *verify_code = self.verifyCodeTextField.text;
-        NSString *invitationCode = @"C11C4E4C";
+        NSString *invitationCode = self.inviteCodeTextField.text;
         NSDictionary *dict = @{@"password": password,@"mobile" :telephone , @"telephone" : telephone,@"verify_code" : verify_code, @"invitationCode" : invitationCode ,@"roleJudge": @"PUSHING" ,@"type" : @"mobile"};
         [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/register_finish.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             

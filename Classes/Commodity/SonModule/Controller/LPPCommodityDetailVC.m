@@ -27,6 +27,9 @@
 @property (nonatomic, copy) NSString  *currentPrice;
 @property (nonatomic, copy) NSString  *oldPrice;
 @property (nonatomic, copy) NSString  *goodsName;
+//库存
+@property (nonatomic, strong) NSNumber  *inventory;
+
 @property (nonatomic, strong) NSArray *colorListArr;
 @property (nonatomic, strong) NSArray *sizeListArr;
 @property (nonatomic, copy) NSString  *goodsID;
@@ -72,10 +75,13 @@
     NSDictionary *dict = @{@"user_id" : user_id, @"token" : token, @"id" : self.deliverID};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/goods.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSLog(@"商品详情----%@",responseObject);
         //第一行
         self.goodsName = responseObject[@"goods_name"];
         self.currentPrice = responseObject[@"goods_current_price"];
         self.oldPrice = responseObject[@"goods_price"];
+        self.inventory = responseObject[@"goods_inventory"];
         //商品id
         self.goodsID = responseObject[@"id"];
         //第二行
@@ -182,8 +188,15 @@
         }else if (indexPath.row == 1) {
             LPPCDPriceNameCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDPriceNameCell" forIndexPath:indexPath];
             cell.goodsNameLabel.text = self.goodsName;
-            cell.currentPriceLabel.text = self.currentPrice;
-            cell.oldPriceLabel.text = self.oldPrice;
+            if (self.currentPrice.length !=0) {
+                cell.currentPriceLabel.text = [@"￥" stringByAppendingString:self.currentPrice];
+            }
+            if (self.oldPrice.length!=0) {
+                cell.oldPriceLabel.text =  [@"￥" stringByAppendingString:self.oldPrice];
+            }
+            if ([self.inventory stringValue].length !=0) {
+                cell.storeLabel.text = [@"剩余数量:" stringByAppendingString:[self.inventory stringValue]];
+            }
             return cell;
         }else if(indexPath.row == 2){
             LPPCDCommodityStyleCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDCommodityStyleCell" forIndexPath:indexPath];
@@ -202,7 +215,7 @@
     }else{
         LPPCDImgIntroductCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LPPCDImgIntroductCell" forIndexPath:indexPath];
         cell.delegate = self;
-        cell.webStr = self.webStr;
+//        cell.webStr = self.webStr;
         [cell.scrollToTopBtn addTarget:self action:@selector(scrollToTopBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }

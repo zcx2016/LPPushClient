@@ -18,8 +18,14 @@
 - (void)setModel:(LPPActivityModel *)model{
     _model = model;
     _goodsNameLabel.text = model.goodId;
-    _goodsPriceLabel.text = model.currentPrice;
-    _goodsOldPriceLabel.text = model.goodPrice;
+    
+    if (model.currentPrice.length !=0) {
+        _goodsPriceLabel.text = [@"￥" stringByAppendingString:model.currentPrice];
+    }
+    
+    if (model.goodPrice.length !=0) {
+        _goodsOldPriceLabel.text = [@"￥" stringByAppendingString:model.goodPrice];
+    }
     
     NSURL *imageUrl = [NSURL URLWithString:model.goodsPhoto];
     [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
@@ -30,8 +36,14 @@
 - (void)setLadyManModel:(LPPLadyCommodityModel *)ladyManModel{
     _ladyManModel = ladyManModel;
     _goodsNameLabel.text = ladyManModel.goods_name;
-    _goodsPriceLabel.text = ladyManModel.current_price;
-    _goodsOldPriceLabel.text = ladyManModel.goods_price;
+    
+    if (ladyManModel.current_price.length !=0) {
+        _goodsPriceLabel.text = [@"￥" stringByAppendingString:ladyManModel.current_price];
+    }
+    
+    if (ladyManModel.goods_price.length !=0) {
+        _goodsOldPriceLabel.text = [@"￥" stringByAppendingString:ladyManModel.goods_price];
+    }
     
     NSURL *imageUrl = [NSURL URLWithString:ladyManModel.goods_image];
     [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
@@ -42,8 +54,14 @@
 - (void)setGoodsListModel:(LPPGoodsListModel *)goodsListModel{
     _goodsListModel = goodsListModel;
     _goodsNameLabel.text = goodsListModel.goodName;
-    _goodsPriceLabel.text = goodsListModel.currentPrice;
-    _goodsOldPriceLabel.text = goodsListModel.goodPrice;
+
+    if (goodsListModel.currentPrice.length !=0) {
+        _goodsPriceLabel.text = [@"￥" stringByAppendingString:goodsListModel.currentPrice];
+    }
+    
+    if (goodsListModel.goodPrice.length !=0) {
+        _goodsOldPriceLabel.text = [@"￥" stringByAppendingString:goodsListModel.goodPrice];
+    }
     
     NSURL *imageUrl = [NSURL URLWithString:goodsListModel.goodsPhoto];
     [self.goodsImgView sd_setImageWithURL:imageUrl placeholderImage:kPlaceHolderImg completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {

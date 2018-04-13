@@ -58,21 +58,9 @@
     //默认选择第一个子控制器
     [self fourBtnClick:nil];
     
-    [self loadData];
 }
 
-- (void)loadData{
-    NSString *user_id = [ZcxUserDefauts objectForKey:@"user_id"];
-    NSDictionary *dict = @{@"user_id" : user_id , @"order_cat" : @"0"};
-    [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
-    [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/buyer/goods_order.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSLog(@"-所有订单---%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"---error -- %@",error);
-    }];
-}
+
 
 - (LPPMyOrderTopView *)topView{
     if(!_topView){

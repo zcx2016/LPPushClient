@@ -33,11 +33,16 @@
     self.backgroundColor = [UIColor clearColor];
     
     [self collectionView];
-    [self loadFirstCellData];
+}
+
+- (void)layoutSubviews{
+    [super layoutSubviews];
+    if (self.tagId.length != 0) {
+        [self loadFirstCellData];
+    }
 }
 
 - (void)loadFirstCellData{
-    self.tagId = @"1";
     NSDictionary *dict = @{@"id" : self.tagId};
     [[LCHTTPSessionManager sharedInstance].requestSerializer setValue:[ZcxUserDefauts objectForKey:@"verify"] forHTTPHeaderField:@"token-id"];
     [[LCHTTPSessionManager sharedInstance] POST:[kUrlReqHead stringByAppendingString:@"/app/recommend_small_photo.htm"] parameters:dict progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
